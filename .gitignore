@@ -1,0 +1,15 @@
+# Build and compiled binaries
+bin/
+*.class
+
+# Debug and temporary scraped files (contains student credentials/attendance snapshots)
+scraped_*.html
+downloaded_attendance_report.pdf
+*.log
+
+# IDE & system metadata
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
