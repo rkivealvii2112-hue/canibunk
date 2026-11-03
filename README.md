@@ -1,4 +1,4 @@
-# 🎓 CanIBunk.com - Phase 1: Core Logic & Academic Data Structures
+# 🎓 BUNKiT - Phase 1: Core Logic & Academic Data Structures
 
 > **Combined Academic Project for Java Programming & Data Structures Course**  
 > An attendance monitor and bunkability predictor enforcing a strict **75% college attendance threshold** (e.g., for portals like *aesajce.in* / KTU / engineering colleges).
@@ -50,7 +50,7 @@ $$\text{Projected \% If Bunked} = \left(\frac{\text{Attended}}{\text{Conducted} 
 
 ## 🏗️ Data Structures Mapping (Academic Core)
 
-| Data Structure | Class Name | Academic Role in CanIBunk | Time Complexity |
+| Data Structure | Class Name | Academic Role in BUNKiT | Time Complexity |
 | :--- | :--- | :--- | :--- |
 | **Hash Table** | [`CustomHashMap<K, V>`](src/com/canibunk/ds/CustomHashMap.java) | Fast $O(1)$ lookup of subjects by course code (e.g., `"CS203"` $\to$ `Subject`). Separate chaining collision resolution. | $O(1)$ avg lookup & insert |
 | **Stack (LIFO)** | [`CustomStack<T>`](src/com/canibunk/ds/CustomStack.java) | **"What-If" Simulator**: Pushes `SimulationAction` whenever user simulates attending/bunking. `undo()` pops the last action and restores previous state. | $O(1)$ push / pop |
@@ -121,4 +121,4 @@ Or simply double-click **`build_and_run.bat`** in Windows Explorer.
 ## 🔮 Roadmap: Next Steps
 
 - **Phase 2 (Scraping)**: Implement headless browser scraping (Selenium / Playwright for Java) to authenticate against `aesajce.in`, extract live tables, and hydrate `CustomHashMap`.
-- **Phase 3 (Web UI)**: Connect a lightweight web backend (Spring Boot or Spark Java) with a modern frontend interface for canibunk.com.
+- **Phase 3 (Web UI)**: Connect a lightweight web backend (Spring Boot or Spark Java) with a modern frontend interface for BUNKiT.

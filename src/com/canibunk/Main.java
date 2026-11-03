@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * CanIBunk.com - Phase 1 Core CLI Application
- * An intelligent college attendance monitor and bunkability predictor powered by
- * custom Data Structures (CustomHashMap, CustomStack, CustomQueue, DoublyLinkedList, AttendanceBST).
+ * BUNKiT - Phase 1 Core CLI Application
+ * An intelligent college attendance monitor and bunkability predictor powered
+ * by
+ * custom Data Structures (CustomHashMap, CustomStack, CustomQueue,
+ * DoublyLinkedList, AttendanceBST).
  */
 public class Main {
 
@@ -63,7 +65,7 @@ public class Main {
                     runLiveSeleniumScraper(scanner);
                     break;
                 case "0":
-                    System.out.println("\n👋 Thank you for using CanIBunk.com! Attend your classes responsibly.");
+                    System.out.println("\n👋 Thank you for using BUNKiT! Attend your classes responsibly.");
                     running = false;
                     break;
                 default:
@@ -74,7 +76,8 @@ public class Main {
 
     private static void promptAesLoginAtStartup(Scanner scanner) {
         System.out.println("\n🔑 COLLEGE PORTAL AUTHENTICATION (aesajce.in)");
-        System.out.println("CanIBunk can fetch your live attendance and class schedule directly from your student portal.");
+        System.out
+                .println("BUNKiT can fetch your live attendance and class schedule directly from your student portal.");
         System.out.print("👉 Would you like to log in to AES portal now? (y/N): ");
         String choice = scanner.nextLine().trim().toLowerCase();
 
@@ -84,7 +87,8 @@ public class Main {
             // Check if debug files exist or fallback to realistic default data
             java.nio.file.Path attPath = java.nio.file.Path.of("scraped_attendance_debug.html");
             if (java.nio.file.Files.exists(attPath)) {
-                System.out.println("ℹ️ Offline mode: Found cached portal snapshot on disk ('scraped_attendance_debug.html'). Loaded cached data.");
+                System.out.println(
+                        "ℹ️ Offline mode: Found cached portal snapshot on disk ('scraped_attendance_debug.html'). Loaded cached data.");
                 try {
                     String attendanceHtml = java.nio.file.Files.readString(attPath);
                     List<Subject> parsed = AttendanceTableParser.parseHtmlTable(attendanceHtml);
@@ -92,7 +96,8 @@ public class Main {
                         AttendanceTableParser.populateRegistry(parsed, subjectRegistry, true);
                         dangerZoneService.rebuildTree(subjectRegistry.values());
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             } else {
                 System.out.println("ℹ️ Proceeding with offline sample attendance and timetable data.");
             }
@@ -102,7 +107,7 @@ public class Main {
     private static void printBanner() {
         System.out.println("\n" +
                 "========================================================================\n" +
-                "  🎓 CanIBunk.com - Intelligent Attendance Monitor & Bunk Predictor    \n" +
+                "  🎓 BUNKiT - Intelligent Attendance Monitor & Bunk Predictor          \n" +
                 "  [Semester 3: Java & Data Structures Combined Academic Project]        \n" +
                 "  Standard Rule: 75.0% Strict Attendance Threshold                      \n" +
                 "========================================================================");
@@ -121,15 +126,19 @@ public class Main {
     }
 
     /**
-     * Initializes realistic hardcoded college data (Semester 3 CSE / KTU / AJCE format).
+     * Initializes realistic hardcoded college data (Semester 3 CSE / KTU / AJCE
+     * format).
      */
     private static void initSampleData() {
-        subjectRegistry.put("CS201", new Subject("CS201", "Discrete Mathematical Structures", 22, 25, 4)); // 88.0% (Safe)
-        subjectRegistry.put("CS203", new Subject("CS203", "Data Structures & Algorithms", 19, 24, 4));    // 79.17% (Edge)
-        subjectRegistry.put("CS205", new Subject("CS205", "Object Oriented Programming (Java)", 24, 26, 4)); // 92.31% (Safe)
-        subjectRegistry.put("CS207", new Subject("CS207", "Digital Electronics & Logic Design", 14, 20, 3)); // 70.0% (Danger)
-        subjectRegistry.put("EST200", new Subject("EST200", "Design & Engineering", 9, 14, 2));            // 64.29% (Critical)
-        subjectRegistry.put("CSL201", new Subject("CSL201", "Data Structures Lab", 18, 18, 2));             // 100.0% (Rock Solid)
+        subjectRegistry.put("CS201", new Subject("CS201", "Discrete Mathematical Structures", 22, 25, 4)); // 88.0%
+                                                                                                           // (Safe)
+        subjectRegistry.put("CS203", new Subject("CS203", "Data Structures & Algorithms", 19, 24, 4)); // 79.17% (Edge)
+        subjectRegistry.put("CS205", new Subject("CS205", "Object Oriented Programming (Java)", 24, 26, 4)); // 92.31%
+                                                                                                             // (Safe)
+        subjectRegistry.put("CS207", new Subject("CS207", "Digital Electronics & Logic Design", 14, 20, 3)); // 70.0%
+                                                                                                             // (Danger)
+        subjectRegistry.put("EST200", new Subject("EST200", "Design & Engineering", 9, 14, 2)); // 64.29% (Critical)
+        subjectRegistry.put("CSL201", new Subject("CSL201", "Data Structures Lab", 18, 18, 2)); // 100.0% (Rock Solid)
 
         dangerZoneService.rebuildTree(subjectRegistry.values());
 
@@ -138,13 +147,15 @@ public class Main {
         scheduleManager.setWeeklySchedule(sampleTt.getScheduleByDay());
 
         // Daily Timetable Queue for Today
-        scheduleManager.addSession(new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
+        scheduleManager
+                .addSession(new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
         scheduleManager.addSession(new ClassSession(2, "10:00 - 11:00", "CS207", "Digital Electronics", "LH-101"));
         scheduleManager.addSession(new ClassSession(3, "11:15 - 12:15", "CS205", "Java Programming", "CC-Lab 2"));
         scheduleManager.addSession(new ClassSession(4, "01:15 - 02:15", "CS201", "Discrete Mathematics", "LH-101"));
         scheduleManager.addSession(new ClassSession(5, "02:15 - 03:15", "EST200", "Design & Engineering", "LH-104"));
 
-        // Load Official AJCE Academic Calendar (Live fetch from Google Sheet or bundled offline CSV)
+        // Load Official AJCE Academic Calendar (Live fetch from Google Sheet or bundled
+        // offline CSV)
         boolean calendarLoaded = calendarService.loadCalendar(calendarManager, true, false);
         if (!calendarLoaded || calendarManager.getTotalDays() == 0) {
             LocalDate base = LocalDate.of(2026, 10, 19);
@@ -170,12 +181,15 @@ public class Main {
      * Feature 1: Full Attendance Matrix (CustomHashMap O(1) lookup).
      */
     private static void displayAttendanceDashboard() {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.println("                         📊 ATTENDANCE MONITOR DASHBOARD (O(1) Map)                 ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.printf("%-8s %-32s %-12s %-10s %-12s %-10s %-15s\n",
                 "CODE", "SUBJECT NAME", "ATTENDED", "PERCENT", "BUNKS LEFT", "NEEDED", "NEXT HOUR");
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Subject s : subjectRegistry.values()) {
             String bunkStatus = s.isBunkableNextHour() ? "\u001B[32m✔ YES\u001B[0m" : "\u001B[31m✖ NO\u001B[0m";
@@ -188,10 +202,10 @@ public class Main {
                     pctFormatted,
                     s.getSafeBunks(),
                     s.getClassesNeededTo75(),
-                    bunkStatus
-            );
+                    bunkStatus);
         }
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
     /**
@@ -201,16 +215,19 @@ public class Main {
         dangerZoneService.rebuildTree(subjectRegistry.values());
         List<Subject> sorted = dangerZoneService.getSortedSubjects();
 
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.println("               ⚠️  DANGER ZONE RANKING (AttendanceBST In-Order Traversal)             ");
         System.out.println("       [Subjects ordered strictly from Most In Danger (Lowest %) to Safest (Highest %)]  ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         int rank = 1;
         for (Subject s : sorted) {
             String badge;
             if (s.getAttendancePercentage() < 75.0) {
-                badge = "\u001B[31m[CRITICAL DANGER]\u001B[0m Needs to attend " + s.getClassesNeededTo75() + " classes straight!";
+                badge = "\u001B[31m[CRITICAL DANGER]\u001B[0m Needs to attend " + s.getClassesNeededTo75()
+                        + " classes straight!";
             } else if (s.getAttendancePercentage() < 80.0 || s.getSafeBunks() == 0) {
                 badge = "\u001B[33m[ON THE EDGE]\u001B[0m Above 75% but cannot bunk next hour!";
             } else {
@@ -222,14 +239,14 @@ public class Main {
                     s.getSubjectCode(),
                     truncate(s.getSubjectName(), 28),
                     s.getAttendancePercentage(),
-                    badge
-            );
+                    badge);
         }
 
         Subject critical = dangerZoneService.getMostCriticalSubject();
         Subject safest = dangerZoneService.getSafestSubject();
 
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
         System.out.printf("🚨 Most Critical Subject in Tree: [%s] %.2f%%\n",
                 critical != null ? critical.getSubjectCode() + " - " + critical.getSubjectName() : "None",
                 critical != null ? critical.getAttendancePercentage() : 0.0);
@@ -239,26 +256,32 @@ public class Main {
 
         System.out.println("\n--- BST Structure (Visual Hierarchy) ---");
         dangerZoneService.getBST().printTree();
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
     /**
      * Menu Option 1: View Today's Schedule.
      * Checks the day of week:
-     * - If Saturday or Sunday: displays a friendly message to relax / take rest / you are free!
+     * - If Saturday or Sunday: displays a friendly message to relax / take rest /
+     * you are free!
      * - Otherwise: displays today's schedule and queue analysis.
      */
     private static void viewTodaysSchedule(Scanner scanner) {
         java.time.DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.printf("                       ⏰ TODAY'S CLASS SCHEDULE (%s)                                \n", dayOfWeek.name());
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("                       ⏰ TODAY'S CLASS SCHEDULE (%s)                                \n",
+                dayOfWeek.name());
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         if (dayOfWeek == java.time.DayOfWeek.SATURDAY || dayOfWeek == java.time.DayOfWeek.SUNDAY) {
             System.out.println("\n  🏖️  Woohoo! Today is " + dayOfWeek.name() + "!");
             System.out.println("  🎉 Take rest! You are completely free today! No college classes scheduled.");
             System.out.println("  ☕ Enjoy your weekend and recharge for the upcoming week!\n");
-            System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+            System.out.println(
+                    "════════════════════════════════════════════════════════════════════════════════════════════");
 
             if (scanner != null) {
                 System.out.println("Options: [W] View Full Weekly Timetable Grid | [Enter] Return to Menu");
@@ -329,9 +352,12 @@ public class Main {
      * - Clear Bunkability verdict
      */
     private static void checkSubjectBunkability(Scanner scanner) {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("                  🎯 BUNKABILITY EVALUATION & 1-HOUR DROP CALCULATOR                        ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "                  🎯 BUNKABILITY EVALUATION & 1-HOUR DROP CALCULATOR                        ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.println("Available Subjects: " + subjectRegistry.keySet());
         System.out.println("Enter a Subject Code to inspect (e.g. CS203), or type 'ALL' to inspect all subjects:");
         System.out.print("👉 Subject Code: ");
@@ -362,37 +388,51 @@ public class Main {
         int needed = s.getClassesNeededTo75();
         boolean safeToBunkNext = s.isBunkableNextHour();
 
-        System.out.println("\n────────────────────────────────────────────────────────────────────────────────────────────");
-        System.out.printf("  📘 Subject Code    : \u001B[33m%s\u001B[0m (%s)\n", s.getSubjectCode(), s.getSubjectName());
+        System.out.println(
+                "\n────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("  📘 Subject Code    : \u001B[33m%s\u001B[0m (%s)\n", s.getSubjectCode(),
+                s.getSubjectName());
         System.out.printf("  📊 Classes Attended: %d / %d conducted\n", attended, conducted);
         System.out.printf("  📈 Current Status  : \u001B[1m%.2f%%\u001B[0m  [%s]\n",
                 currentPct, s.getStatus().format(s.getStatus().name()));
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
         System.out.println("  💥 1-HOUR BUNK IMPACT:");
-        System.out.printf("     • If you bunk 1 hour : \u001B[31m%.2f%%\u001B[0m (attended %d / %d)\n", bunk1Pct, attended, conducted + 1);
+        System.out.printf("     • If you bunk 1 hour : \u001B[31m%.2f%%\u001B[0m (attended %d / %d)\n", bunk1Pct,
+                attended, conducted + 1);
         System.out.printf("     • Percentage Drop    : \u001B[31m-%.2f%%\u001B[0m drop in attendance\n", drop);
         System.out.printf("     • If you attend 1 hr : \u001B[32m%.2f%%\u001B[0m (attended %d / %d, +%.2f%% gain)\n",
                 attend1Pct, attended + 1, conducted + 1, (attend1Pct - currentPct));
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
         System.out.println("  🛡️  BUNK SAFETY & RECOVERY:");
-        System.out.printf("     • Safe Bunks Left    : \u001B[32m%d class(es)\u001B[0m you can bunk before falling below 75.0%%\n", safeBunks);
+        System.out.printf(
+                "     • Safe Bunks Left    : \u001B[32m%d class(es)\u001B[0m you can bunk before falling below 75.0%%\n",
+                safeBunks);
         if (currentPct < 75.0) {
-            System.out.printf("     • Recovery Needed    : \u001B[31mMust attend %d class(es) straight\u001B[0m without bunking to reach 75.0%%!\n", needed);
+            System.out.printf(
+                    "     • Recovery Needed    : \u001B[31mMust attend %d class(es) straight\u001B[0m without bunking to reach 75.0%%!\n",
+                    needed);
         }
         System.out.print("  🚦 VERDICT FOR NEXT CLASS : ");
         if (safeToBunkNext) {
-            System.out.println("\u001B[32m✔ YES, SAFE TO BUNK! (Attendance will stay at " + String.format("%.2f%%", bunk1Pct) + " >= 75%)\u001B[0m");
+            System.out.println("\u001B[32m✔ YES, SAFE TO BUNK! (Attendance will stay at "
+                    + String.format("%.2f%%", bunk1Pct) + " >= 75%)\u001B[0m");
         } else {
-            System.out.println("\u001B[31m✖ DO NOT BUNK! (Attendance will drop to " + String.format("%.2f%%", bunk1Pct) + " < 75%)\u001B[0m");
+            System.out.println("\u001B[31m✖ DO NOT BUNK! (Attendance will drop to " + String.format("%.2f%%", bunk1Pct)
+                    + " < 75%)\u001B[0m");
         }
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
     private static void displayAllSubjectsBunkabilityDrop() {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.printf("%-8s %-26s %-10s %-9s %-12s %-10s %-11s %-12s\n",
                 "CODE", "SUBJECT NAME", "ATTENDED", "CURRENT %", "IF BUNK 1HR", "% DROP", "SAFE BUNKS", "BUNKABLE?");
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Subject s : subjectRegistry.values()) {
             double cur = s.getAttendancePercentage();
@@ -408,10 +448,10 @@ public class Main {
                     ifBunk,
                     drop,
                     s.getSafeBunks(),
-                    bunkStatus
-            );
+                    bunkStatus);
         }
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
     /**
@@ -421,11 +461,13 @@ public class Main {
         viewTodaysSchedule(null);
     }
 
-
     private static void displayWeeklyTimetableGrid(Scanner scanner) {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("                         📅 WEEKLY CLASS TIMETABLE GRID                                      ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "                         📅 WEEKLY CLASS TIMETABLE GRID                                      ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         if (scheduleManager.getWeeklySchedule().isEmpty()) {
             System.out.println("ℹ️ No scraped weekly timetable currently in memory.");
@@ -445,7 +487,8 @@ public class Main {
 
     private static void initDailyQueue() {
         scheduleManager.clear();
-        scheduleManager.addSession(new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
+        scheduleManager
+                .addSession(new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
         scheduleManager.addSession(new ClassSession(2, "10:00 - 11:00", "CS207", "Digital Electronics", "LH-101"));
         scheduleManager.addSession(new ClassSession(3, "11:15 - 12:15", "CS205", "Java Programming", "CC-Lab 2"));
         scheduleManager.addSession(new ClassSession(4, "01:15 - 02:15", "CS201", "Discrete Mathematics", "LH-101"));
@@ -456,9 +499,12 @@ public class Main {
      * Feature 4: What-If Simulator (CustomStack LIFO Undo/Redo).
      */
     private static void launchWhatIfSimulator(Scanner scanner) {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("                🔮 'WHAT-IF' ATTENDANCE SIMULATOR (CustomStack Undo/Redo)                   ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "                🔮 'WHAT-IF' ATTENDANCE SIMULATOR (CustomStack Undo/Redo)                   ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.println("Simulate bunking or attending future lectures to see real-time impact on your percentage.");
         System.out.println("Every simulated action is pushed onto the Stack so you can freely UNDO and REDO!");
 
@@ -489,7 +535,8 @@ public class Main {
                     double beforePct = s.getAttendancePercentage();
                     SimulationAction action = whatIfSimulator.simulateBunk(s, "Manual simulation test");
                     dangerZoneService.rebuildTree(subjectRegistry.values());
-                    System.out.printf("\u001B[33mSimulated BUNK for %s: Attendance changed from %.2f%% to %.2f%%\u001B[0m\n",
+                    System.out.printf(
+                            "\u001B[33mSimulated BUNK for %s: Attendance changed from %.2f%% to %.2f%%\u001B[0m\n",
                             code, beforePct, s.getAttendancePercentage());
                     System.out.println("Current status: " + s);
                     break;
@@ -505,7 +552,8 @@ public class Main {
                     double beforePct = s.getAttendancePercentage();
                     SimulationAction action = whatIfSimulator.simulateAttend(s, "Manual simulation test");
                     dangerZoneService.rebuildTree(subjectRegistry.values());
-                    System.out.printf("\u001B[32mSimulated ATTEND for %s: Attendance changed from %.2f%% to %.2f%%\u001B[0m\n",
+                    System.out.printf(
+                            "\u001B[32mSimulated ATTEND for %s: Attendance changed from %.2f%% to %.2f%%\u001B[0m\n",
                             code, beforePct, s.getAttendancePercentage());
                     System.out.println("Current status: " + s);
                     break;
@@ -552,9 +600,12 @@ public class Main {
     }
 
     private static void displayAcademicCalendarDLL(Scanner scanner) {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("     📅 AJCE ACADEMIC CALENDAR & SEMESTER-END PROJECTIONS (Doubly Linked List Traversal)    ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "     📅 AJCE ACADEMIC CALENDAR & SEMESTER-END PROJECTIONS (Doubly Linked List Traversal)    ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         LocalDate today = LocalDate.of(2026, 10, 26);
         int workingDaysLeft = calendarService.countWorkingDaysRemaining(calendarManager, today);
@@ -563,10 +614,14 @@ public class Main {
 
         System.out.println("🌐 Academic Calendar Source : " + calendarService.getDataSource());
         System.out.println("🔗 Official Calendar Link   : " + AcademicCalendarService.AJCE_CALENDAR_PAGE_URL);
-        System.out.printf("📆 Reference Date (Today)   : \u001B[33m%s\u001B[0m | Semester: S3 (Higher Semesters)\n", today);
-        System.out.printf("📊 Working Days Summary     : \u001B[32m%d Elapsed\u001B[0m / %d Total | \u001B[36m%d Working Days Left\u001B[0m (%.1f%% complete)\n",
-                workingDaysElapsed, totalWorkingDays, workingDaysLeft, ((double) workingDaysElapsed / totalWorkingDays) * 100.0);
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.printf("📆 Reference Date (Today)   : \u001B[33m%s\u001B[0m | Semester: S3 (Higher Semesters)\n",
+                today);
+        System.out.printf(
+                "📊 Working Days Summary     : \u001B[32m%d Elapsed\u001B[0m / %d Total | \u001B[36m%d Working Days Left\u001B[0m (%.1f%% complete)\n",
+                workingDaysElapsed, totalWorkingDays, workingDaysLeft,
+                ((double) workingDaysElapsed / totalWorkingDays) * 100.0);
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         System.out.println("🎯 KEY SEMESTER MILESTONES & EXAM COUNTDOWN (DLL Traversal):");
         LocalDate lastInst = calendarService.getLastInstructionalDay();
@@ -587,12 +642,14 @@ public class Main {
         int daysUntilExam = calendarManager.countDaysUntilExam(examDate, today);
         System.out.printf("  📚 End Semester Exam 1     : %s -> \u001B[35m%d calendar days left\u001B[0m\n",
                 examDate, daysUntilExam);
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         System.out.println("📈 SEMESTER-END ATTENDANCE & BUNK BUDGET PROJECTIONS (Accurate to Calendar):");
         System.out.printf("%-8s %-26s %-10s %-8s %-10s %-9s %-11s %-12s\n",
                 "CODE", "SUBJECT NAME", "ATTENDED", "CURR %", "CLASSES REM", "MAX %", "MUST ATTEND", "BUNK BUDGET");
-        System.out.println("────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(
+                "────────────────────────────────────────────────────────────────────────────────────────────");
 
         for (Subject s : subjectRegistry.values()) {
             SemesterProjection proj = SemesterAttendanceProjector.project(
@@ -617,18 +674,20 @@ public class Main {
                     proj.getRemainingClasses(),
                     maxPctStr,
                     proj.getMustAttendToPass(),
-                    budgetStr
-            );
+                    budgetStr);
 
             if (!proj.isCanAchieveThreshold()) {
-                System.out.printf("  🚨 \u001B[31m[CONDONATION ALERT] Cannot reach 75%%! Max possible is %.1f%%. Submit medical certificate before %s!\u001B[0m\n",
+                System.out.printf(
+                        "  🚨 \u001B[31m[CONDONATION ALERT] Cannot reach 75%%! Max possible is %.1f%%. Submit medical certificate before %s!\u001B[0m\n",
                         proj.getMaxPossiblePercentage(), condonationNoFine);
             }
         }
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         if (scanner != null) {
-            System.out.println("\nOptions: [1] View Remaining Working Days Schedule | [2] Live Sync from AJCE | [Enter] Back");
+            System.out.println(
+                    "\nOptions: [1] View Remaining Working Days Schedule | [2] Live Sync from AJCE | [Enter] Back");
             System.out.print("👉 Choice: ");
             String opt = scanner.nextLine().trim();
             if (opt.equals("1")) {
@@ -680,7 +739,7 @@ public class Main {
      */
     private static void runAutomatedWalkthrough() {
         System.out.println("\n========================================================================");
-        System.out.println("       🚀 EXECUTING AUTOMATED CANIBUNK.COM PHASE 1 DEMONSTRATION        ");
+        System.out.println("       🚀 EXECUTING AUTOMATED BUNKiT PHASE 1 DEMONSTRATION              ");
         System.out.println("========================================================================");
 
         System.out.println("\n--- Step 1: Attendance Dashboard (CustomHashMap O(1) Lookup) ---");
@@ -723,14 +782,18 @@ public class Main {
     /**
      * Feature 8: Live Selenium Scraper (aesajce.in).
      * Connects via headless browser, logs in, directly accesses:
-     *   - https://www.aesajce.in/students/currentAttendance.php (Subject-wise Attendance)
-     *   - https://www.aesajce.in/students/classworkSchedule.php (Class Timetable)
+     * - https://www.aesajce.in/students/currentAttendance.php (Subject-wise
+     * Attendance)
+     * - https://www.aesajce.in/students/classworkSchedule.php (Class Timetable)
      * Populates both CustomHashMap and ScheduleManager's CustomQueue.
      */
     private static void runLiveSeleniumScraper(Scanner scanner) {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("              🌐 LIVE COLLEGE PORTAL SCRAPER (aesajce.in via Selenium WebDriver)            ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "              🌐 LIVE COLLEGE PORTAL SCRAPER (aesajce.in via Selenium WebDriver)            ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
         System.out.println("Direct Targets:");
         System.out.println("  1. Subject Attendance : " + AesPortalScraper.ATTENDANCE_URL);
         System.out.println("  2. Class Timetable    : " + AesPortalScraper.TIMETABLE_URL);
@@ -763,36 +826,48 @@ public class Main {
 
             AesPortalScraper scraper = new AesPortalScraper(headless);
             System.out.println("\n🚀 Launching Selenium WebDriver session...");
-            AesPortalScraper.ScraperResult result = scraper.scrapePortal(username, password, subjectRegistry, scheduleManager);
+            AesPortalScraper.ScraperResult result = scraper.scrapePortal(username, password, subjectRegistry,
+                    scheduleManager);
 
             if (result.getSubjectCount() > 0) {
                 dangerZoneService.rebuildTree(subjectRegistry.values());
-                System.out.printf("\n\u001B[32m✔ SUCCESS! Scraped %d subjects directly from currentAttendance.php!\u001B[0m\n", result.getSubjectCount());
+                System.out.printf(
+                        "\n\u001B[32m✔ SUCCESS! Scraped %d subjects directly from currentAttendance.php!\u001B[0m\n",
+                        result.getSubjectCount());
                 if (result.getTimetableSessionsCount() > 0) {
-                    System.out.printf("\u001B[32m✔ SUCCESS! Scraped class timetable from classworkSchedule.php (%d sessions loaded into today's queue)!\u001B[0m\n",
+                    System.out.printf(
+                            "\u001B[32m✔ SUCCESS! Scraped class timetable from classworkSchedule.php (%d sessions loaded into today's queue)!\u001B[0m\n",
                             result.getTimetableSessionsCount());
                 }
                 displayAttendanceDashboard();
             } else {
-                System.out.println("⚠️ Scraper completed but could not extract subjects. Please verify portal structure or credentials.");
+                System.out.println(
+                        "⚠️ Scraper completed but could not extract subjects. Please verify portal structure or credentials.");
             }
 
         } catch (Exception e) {
             System.out.println("\u001B[31m❌ Scraper Error: " + e.getMessage() + "\u001B[0m");
-            System.out.println("Tip: Check 'scraped_attendance_debug.html' & 'scraped_timetable_debug.html', or use Option 9 (Sample HTML Scraper).");
+            System.out.println(
+                    "Tip: Check 'scraped_attendance_debug.html' & 'scraped_timetable_debug.html', or use Option 9 (Sample HTML Scraper).");
         }
     }
 
     /**
      * Feature 9: Offline / Sample HTML Scraper Demo.
-     * Demonstrates parsing both realistic AES attendance table (currentAttendance.php format)
-     * and class timetable grid (classworkSchedule.php format) directly into CustomHashMap & CustomQueue.
-     * If live debug files exist, automatically loads them for an instant offline preview!
+     * Demonstrates parsing both realistic AES attendance table
+     * (currentAttendance.php format)
+     * and class timetable grid (classworkSchedule.php format) directly into
+     * CustomHashMap & CustomQueue.
+     * If live debug files exist, automatically loads them for an instant offline
+     * preview!
      */
     private static void runOfflineScraperDemo() {
-        System.out.println("\n════════════════════════════════════════════════════════════════════════════════════════════");
-        System.out.println("               🧪 OFFLINE / SAMPLE HTML TABLE SCRAPER DEMONSTRATION                         ");
-        System.out.println("════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "\n════════════════════════════════════════════════════════════════════════════════════════════");
+        System.out.println(
+                "               🧪 OFFLINE / SAMPLE HTML TABLE SCRAPER DEMONSTRATION                         ");
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════");
 
         java.nio.file.Path attPath = java.nio.file.Path.of("scraped_attendance_debug.html");
         java.nio.file.Path ttPath = java.nio.file.Path.of("scraped_timetable_debug.html");
@@ -804,54 +879,65 @@ public class Main {
             try {
                 attendanceHtml = java.nio.file.Files.readString(attPath);
                 System.out.println("📁 Found live attendance snapshot: 'scraped_attendance_debug.html' on disk.");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         if (java.nio.file.Files.exists(ttPath)) {
             try {
                 timetableHtml = java.nio.file.Files.readString(ttPath);
                 System.out.println("📁 Found live timetable snapshot: 'scraped_timetable_debug.html' on disk.");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         if (attendanceHtml == null) {
-            attendanceHtml =
-                "<table class=\"table table-bordered table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr><th>Sl.No</th><th>Course Code</th><th>Course Title</th><th>TH</th><th>AH</th><th>DL</th><th>AH+DL</th><th>%AH</th><th>%AH+DL</th></tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n" +
-                "    <tr><td>1</td><td>CST201</td><td>Discrete Mathematical Structures</td><td>36</td><td>32</td><td>2</td><td>34</td><td>88.89</td><td>94.44</td></tr>\n" +
-                "    <tr><td>2</td><td>CST203</td><td>Logic System Design</td><td>30</td><td>22</td><td>1</td><td>23</td><td>73.33</td><td>76.67</td></tr>\n" +
-                "    <tr><td>3</td><td>CST205</td><td>Object Oriented Programming (Java)</td><td>28</td><td>25</td><td>0</td><td>25</td><td>89.29</td><td>89.29</td></tr>\n" +
-                "    <tr><td>4</td><td>CST207</td><td>Data Structures & Algorithms</td><td>32</td><td>24</td><td>0</td><td>24</td><td>75.00</td><td>75.00</td></tr>\n" +
-                "    <tr><td>5</td><td>EST200</td><td>Design & Engineering</td><td>20</td><td>12</td><td>1</td><td>13</td><td>60.00</td><td>65.00</td></tr>\n" +
-                "  </tbody>\n" +
-                "</table>";
+            attendanceHtml = "<table class=\"table table-bordered table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr><th>Sl.No</th><th>Course Code</th><th>Course Title</th><th>TH</th><th>AH</th><th>DL</th><th>AH+DL</th><th>%AH</th><th>%AH+DL</th></tr>\n"
+                    +
+                    "  </thead>\n" +
+                    "  <tbody>\n" +
+                    "    <tr><td>1</td><td>CST201</td><td>Discrete Mathematical Structures</td><td>36</td><td>32</td><td>2</td><td>34</td><td>88.89</td><td>94.44</td></tr>\n"
+                    +
+                    "    <tr><td>2</td><td>CST203</td><td>Logic System Design</td><td>30</td><td>22</td><td>1</td><td>23</td><td>73.33</td><td>76.67</td></tr>\n"
+                    +
+                    "    <tr><td>3</td><td>CST205</td><td>Object Oriented Programming (Java)</td><td>28</td><td>25</td><td>0</td><td>25</td><td>89.29</td><td>89.29</td></tr>\n"
+                    +
+                    "    <tr><td>4</td><td>CST207</td><td>Data Structures & Algorithms</td><td>32</td><td>24</td><td>0</td><td>24</td><td>75.00</td><td>75.00</td></tr>\n"
+                    +
+                    "    <tr><td>5</td><td>EST200</td><td>Design & Engineering</td><td>20</td><td>12</td><td>1</td><td>13</td><td>60.00</td><td>65.00</td></tr>\n"
+                    +
+                    "  </tbody>\n" +
+                    "</table>";
         }
 
         if (timetableHtml == null) {
-            timetableHtml =
-                "<table class=\"table table-bordered table-striped text-center\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th>Day / Hour</th>\n" +
-                "      <th>1<br>09:00 - 10:00</th>\n" +
-                "      <th>2<br>10:00 - 11:00</th>\n" +
-                "      <th>3<br>11:15 - 12:15</th>\n" +
-                "      <th>4<br>01:15 - 02:15</th>\n" +
-                "      <th>5<br>02:15 - 03:15</th>\n" +
-                "      <th>6<br>03:15 - 04:15</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n" +
-                "    <tr><td><b>Monday</b></td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST207 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n" +
-                "    <tr><td><b>Tuesday</b></td><td>CST203 (LH-101)</td><td>CST207 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n" +
-                "    <tr><td><b>Wednesday</b></td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>CST207 (LH-101)</td><td>CST201 (LH-101)</td><td>-</td></tr>\n" +
-                "    <tr><td><b>Thursday</b></td><td>CST207 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n" +
-                "    <tr><td><b>Friday</b></td><td>CST201 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST207 (LH-101)</td><td>CST203 (LH-101)</td><td>-</td><td>-</td></tr>\n" +
-                "  </tbody>\n" +
-                "</table>";
+            timetableHtml = "<table class=\"table table-bordered table-striped text-center\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th>Day / Hour</th>\n" +
+                    "      <th>1<br>09:00 - 10:00</th>\n" +
+                    "      <th>2<br>10:00 - 11:00</th>\n" +
+                    "      <th>3<br>11:15 - 12:15</th>\n" +
+                    "      <th>4<br>01:15 - 02:15</th>\n" +
+                    "      <th>5<br>02:15 - 03:15</th>\n" +
+                    "      <th>6<br>03:15 - 04:15</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n" +
+                    "    <tr><td><b>Monday</b></td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST207 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n"
+                    +
+                    "    <tr><td><b>Tuesday</b></td><td>CST203 (LH-101)</td><td>CST207 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n"
+                    +
+                    "    <tr><td><b>Wednesday</b></td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>CST207 (LH-101)</td><td>CST201 (LH-101)</td><td>-</td></tr>\n"
+                    +
+                    "    <tr><td><b>Thursday</b></td><td>CST207 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST201 (LH-101)</td><td>CST203 (LH-101)</td><td>EST200 (LH-104)</td><td>-</td></tr>\n"
+                    +
+                    "    <tr><td><b>Friday</b></td><td>CST201 (LH-101)</td><td>CST205 (CC-Lab 2)</td><td>CST207 (LH-101)</td><td>CST203 (LH-101)</td><td>-</td><td>-</td></tr>\n"
+                    +
+                    "  </tbody>\n" +
+                    "</table>";
         }
 
         System.out.println("\n--- [1] Parsing Attendance Table HTML ---");
@@ -864,17 +950,19 @@ public class Main {
         TimetableParser.TimetableResult ttResult = TimetableParser.parseTimetable(timetableHtml, subjectRegistry);
         scheduleManager.setWeeklySchedule(ttResult.getScheduleByDay());
         int queueCount = TimetableParser.populateTodaySchedule(ttResult, scheduleManager, subjectRegistry);
-        System.out.printf("\u001B[32m✔ Successfully loaded %d periods into today's Schedule Queue (CustomQueue FIFO)!\u001B[0m\n", queueCount);
+        System.out.printf(
+                "\u001B[32m✔ Successfully loaded %d periods into today's Schedule Queue (CustomQueue FIFO)!\u001B[0m\n",
+                queueCount);
 
         displayAttendanceDashboard();
         displayDangerZoneBST();
         System.out.println(ttResult.formatWeeklyTable());
     }
 
-
     private static TimetableParser.TimetableResult getSampleTimetableResult() {
         TimetableParser.TimetableResult tt = new TimetableParser.TimetableResult();
-        tt.addSession("MONDAY", new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
+        tt.addSession("MONDAY",
+                new ClassSession(1, "09:00 - 10:00", "CS203", "Data Structures & Algorithms", "LH-101"));
         tt.addSession("MONDAY", new ClassSession(2, "10:00 - 11:00", "CS207", "Digital Electronics", "LH-101"));
         tt.addSession("MONDAY", new ClassSession(3, "11:15 - 12:15", "CS205", "Java Programming", "CC-Lab 2"));
         tt.addSession("MONDAY", new ClassSession(4, "01:15 - 02:15", "CS201", "Discrete Mathematics", "LH-101"));
@@ -882,15 +970,18 @@ public class Main {
 
         tt.addSession("TUESDAY", new ClassSession(1, "09:00 - 10:00", "CS201", "Discrete Mathematics", "LH-101"));
         tt.addSession("TUESDAY", new ClassSession(2, "10:00 - 11:00", "CS205", "Java Programming", "CC-Lab 2"));
-        tt.addSession("TUESDAY", new ClassSession(3, "11:15 - 12:15", "CS203", "Data Structures & Algorithms", "LH-101"));
+        tt.addSession("TUESDAY",
+                new ClassSession(3, "11:15 - 12:15", "CS203", "Data Structures & Algorithms", "LH-101"));
         tt.addSession("TUESDAY", new ClassSession(4, "01:15 - 02:15", "CS207", "Digital Electronics", "LH-101"));
         tt.addSession("TUESDAY", new ClassSession(5, "02:15 - 03:15", "EST200", "Design & Engineering", "LH-104"));
         return tt;
     }
 
     private static String truncate(String text, int max) {
-        if (text == null) return "";
-        if (text.length() <= max) return text;
+        if (text == null)
+            return "";
+        if (text.length() <= max)
+            return text;
         return text.substring(0, max - 3) + "...";
     }
 }

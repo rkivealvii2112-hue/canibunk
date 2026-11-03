@@ -106,7 +106,7 @@ public class AcademicCalendarService {
                 .build();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(csvUrl))
-                .header("User-Agent", "Mozilla/5.0 (CanIBunk Academic Attendance Engine)")
+                .header("User-Agent", "Mozilla/5.0 (BUNKiT Academic Attendance Engine)")
                 .GET()
                 .build();
         HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());

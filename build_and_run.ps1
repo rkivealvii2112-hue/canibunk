@@ -1,11 +1,18 @@
 # ==============================================================
-#  CanIBunk.com - Phase 1 & 2 Build & Run Script (PowerShell)
+#  BUNKiT - Phase 1 & 2 Build & Run Script (PowerShell)
 # ==============================================================
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::InputEncoding = [System.Text.Encoding]::UTF8
 
-Write-Host "[CanIBunk] Compiling Java source files..." -ForegroundColor Cyan
+# Detect JDK path if not yet refreshed in current terminal session
+if (Test-Path "C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot\bin") {
+    $env:PATH = "C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot\bin;" + $env:PATH
+} elseif ($env:JAVA_HOME -and (Test-Path "$env:JAVA_HOME\bin")) {
+    $env:PATH = "$env:JAVA_HOME\bin;" + $env:PATH
+}
+
+Write-Host "[BUNKiT] Compiling Java source files..." -ForegroundColor Cyan
 
 if (-not (Test-Path "bin")) {
     New-Item -ItemType Directory -Path "bin" | Out-Null
@@ -20,11 +27,10 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Write-Host "[CanIBunk] Compilation successful!" -ForegroundColor Green
+Write-Host "[BUNKiT] Compilation successful!" -ForegroundColor Green
 
 if ($args.Count -gt 0) {
     java -cp "bin;lib/*" com.canibunk.Main $args
 } else {
     java -cp "bin;lib/*" com.canibunk.Main
 }
-

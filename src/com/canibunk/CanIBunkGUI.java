@@ -7,6 +7,7 @@ import com.canibunk.scraper.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,47 +17,50 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * CanIBunk.com - Colourful & Animated Swing GUI Menu
+ * BUNKiT - Professional & Clean Swing Desktop Application
  * Built using javax.swing and java.awt for the academic project.
- * Features animated login page with floating particles, glowing elements,
- * and a polished main menu with hover glow effects.
+ * Features an executive dark theme, unified design language, clean KPI dashboards,
+ * custom pill badges, and refined typography.
  */
 public class CanIBunkGUI extends JFrame {
 
-    // ── Colour Palette ──────────────────────────────────────────────
-    private static final Color BG_DARK        = new Color(18, 18, 30);
-    private static final Color BG_CARD        = new Color(30, 30, 52);
-    private static final Color BG_CARD_HOVER  = new Color(42, 42, 70);
-    private static final Color ACCENT_PURPLE  = new Color(138, 92, 246);
-    private static final Color ACCENT_CYAN    = new Color(34, 211, 238);
-    private static final Color ACCENT_PINK    = new Color(244, 114, 182);
-    private static final Color ACCENT_GREEN   = new Color(74, 222, 128);
-    private static final Color ACCENT_AMBER   = new Color(251, 191, 36);
-    private static final Color ACCENT_RED     = new Color(248, 113, 113);
-    private static final Color TEXT_PRIMARY    = new Color(240, 240, 255);
-    private static final Color TEXT_SECONDARY  = new Color(160, 160, 190);
-    private static final Color GRADIENT_START  = new Color(88, 28, 135);
-    private static final Color GRADIENT_MID    = new Color(55, 15, 100);
-    private static final Color GRADIENT_END    = new Color(15, 23, 42);
-    private static final Color SAFE_GREEN      = new Color(34, 197, 94);
-    private static final Color DANGER_RED      = new Color(239, 68, 68);
-    private static final Color EDGE_YELLOW     = new Color(234, 179, 8);
-    private static final Color GLASS_BG        = new Color(35, 35, 60, 180);
-    private static final Color GLASS_BORDER    = new Color(100, 100, 160, 100);
+    // ── Modern Professional Color Palette (Slate / Indigo Dark Theme) ─
+    private static final Color BG_MAIN           = new Color(13, 16, 23);       // #0D1017 deep dark base
+    private static final Color BG_SURFACE        = new Color(21, 26, 38);       // #151A26 elevated surface
+    private static final Color BG_SURFACE_HOVER  = new Color(28, 35, 51);       // #1C2333 hovered surface
+    private static final Color BG_SURFACE_SUBTLE = new Color(17, 21, 31);       // #11151F input/row alt
+    private static final Color BORDER_SUBTLE     = new Color(36, 43, 61);       // #242B3D fine border
+    private static final Color BORDER_HOVER      = new Color(59, 70, 99);       // #3B4663 border highlight
+    private static final Color ACCENT_PRIMARY    = new Color(99, 102, 241);     // #6366F1 Indigo-500
+    private static final Color ACCENT_PRIMARY_HOVER = new Color(129, 140, 248);// #818CF8 Indigo-400
+    private static final Color ACCENT_CYAN       = new Color(56, 189, 248);     // #38BDF8 Sky-400
+    private static final Color ACCENT_EMERALD    = new Color(34, 197, 94);      // #22C55E Green-500
+    private static final Color ACCENT_AMBER      = new Color(245, 158, 11);     // #F59E0B Amber-500
+    private static final Color ACCENT_ROSE       = new Color(239, 68, 68);      // #EF4444 Rose-500
+    private static final Color ACCENT_PURPLE     = new Color(168, 85, 247);     // #A855F7 Purple-500
 
-    // ── Fonts ────────────────────────────────────────────────────────
-    private static final Font FONT_TITLE   = new Font("Segoe UI", Font.BOLD, 28);
-    private static final Font FONT_HEADING = new Font("Segoe UI", Font.BOLD, 20);
-    private static final Font FONT_BODY    = new Font("Segoe UI", Font.PLAIN, 14);
-    private static final Font FONT_BUTTON  = new Font("Segoe UI Semibold", Font.BOLD, 15);
-    private static final Font FONT_SMALL   = new Font("Segoe UI", Font.PLAIN, 12);
-    private static final Font FONT_MONO    = new Font("Consolas", Font.PLAIN, 13);
-    private static final Font FONT_LOGO    = new Font("Segoe UI", Font.BOLD, 36);
+    private static final Color TEXT_PRIMARY      = new Color(241, 245, 249);    // #F1F5F9 Slate-100
+    private static final Color TEXT_SECONDARY    = new Color(148, 163, 184);    // #94A3B8 Slate-400
+    private static final Color TEXT_MUTED        = new Color(100, 116, 139);    // #64748B Slate-500
 
-    // ── Backend services (reused from the CLI Main) ─────────────────
+    private static final Color SAFE_GREEN        = ACCENT_EMERALD;
+    private static final Color DANGER_RED        = ACCENT_ROSE;
+    private static final Color EDGE_YELLOW       = ACCENT_AMBER;
+
+    // ── Typography ──────────────────────────────────────────────────
+    private static final Font FONT_DISPLAY       = new Font("Segoe UI", Font.BOLD, 22);
+    private static final Font FONT_TITLE         = new Font("Segoe UI", Font.BOLD, 17);
+    private static final Font FONT_SUBHEAD       = new Font("Segoe UI Semibold", Font.BOLD, 13);
+    private static final Font FONT_BODY          = new Font("Segoe UI", Font.PLAIN, 13);
+    private static final Font FONT_BODY_SEMIBOLD = new Font("Segoe UI Semibold", Font.BOLD, 13);
+    private static final Font FONT_BUTTON        = new Font("Segoe UI Semibold", Font.BOLD, 13);
+    private static final Font FONT_SMALL         = new Font("Segoe UI", Font.PLAIN, 12);
+    private static final Font FONT_BADGE         = new Font("Segoe UI Semibold", Font.BOLD, 11);
+    private static final Font FONT_MONO          = new Font("Consolas", Font.PLAIN, 13);
+
+    // ── Backend services ─────────────────────────────────────────────
     private final CustomHashMap<String, Subject> subjectRegistry = new CustomHashMap<>();
     private final DangerZoneService dangerZoneService = new DangerZoneService();
     private final ScheduleManager scheduleManager = new ScheduleManager();
@@ -72,13 +76,13 @@ public class CanIBunkGUI extends JFrame {
 
     // ── Constructor ─────────────────────────────────────────────────
     public CanIBunkGUI() {
-        super("CanIBunk.com — Attendance Monitor & Bunk Predictor");
+        super("BUNKiT — Attendance Monitor & Bunk Predictor");
         initSampleData();
         initUI();
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  DATA INITIALIZATION  (mirrors Main.initSampleData)
+    //  DATA INITIALIZATION (mirrors Main.initSampleData)
     // ══════════════════════════════════════════════════════════════════
     private void initSampleData() {
         subjectRegistry.put("CS201", new Subject("CS201", "Discrete Mathematical Structures", 22, 25, 4));
@@ -138,14 +142,14 @@ public class CanIBunkGUI extends JFrame {
         tt.addSession("WEDNESDAY", new ClassSession(4, "01:15 - 02:15", "CS207", "Digital Electronics",          "LH-101"));
         tt.addSession("WEDNESDAY", new ClassSession(5, "02:15 - 03:15", "CS201", "Discrete Mathematics",         "LH-101"));
         tt.addSession("THURSDAY",  new ClassSession(1, "09:00 - 10:00", "CS207", "Digital Electronics",          "LH-101"));
-        tt.addSession("THURSDAY",  new ClassSession(2, "10:00 - 11:00", "CS205", "Java Programming",             "CC-Lab 2"));
-        tt.addSession("THURSDAY",  new ClassSession(3, "11:15 - 12:15", "CS201", "Discrete Mathematics",         "LH-101"));
-        tt.addSession("THURSDAY",  new ClassSession(4, "01:15 - 02:15", "CS203", "Data Structures & Algorithms", "LH-101"));
-        tt.addSession("THURSDAY",  new ClassSession(5, "02:15 - 03:15", "EST200", "Design & Engineering",        "LH-104"));
+        tt.addSession("THURSDAY",  new ClassSession(2, "10:00 - 11:00", "CS203", "Data Structures & Algorithms", "LH-101"));
+        tt.addSession("THURSDAY",  new ClassSession(3, "11:15 - 12:15", "EST200", "Design & Engineering",        "LH-104"));
+        tt.addSession("THURSDAY",  new ClassSession(4, "01:15 - 02:15", "CS205", "Java Programming",             "CC-Lab 2"));
+        tt.addSession("THURSDAY",  new ClassSession(5, "02:15 - 03:15", "CS201", "Discrete Mathematics",         "LH-101"));
         tt.addSession("FRIDAY",    new ClassSession(1, "09:00 - 10:00", "CS201", "Discrete Mathematics",         "LH-101"));
-        tt.addSession("FRIDAY",    new ClassSession(2, "10:00 - 11:00", "CS205", "Java Programming",             "CC-Lab 2"));
-        tt.addSession("FRIDAY",    new ClassSession(3, "11:15 - 12:15", "CS207", "Digital Electronics",          "LH-101"));
-        tt.addSession("FRIDAY",    new ClassSession(4, "01:15 - 02:15", "CS203", "Data Structures & Algorithms", "LH-101"));
+        tt.addSession("FRIDAY",    new ClassSession(2, "10:00 - 11:00", "EST200", "Design & Engineering",        "LH-104"));
+        tt.addSession("FRIDAY",    new ClassSession(3, "11:15 - 01:15", "CSL201", "Data Structures Lab",         "Lab 3"));
+        tt.addSession("FRIDAY",    new ClassSession(4, "02:15 - 03:15", "CS203", "Data Structures & Algorithms", "LH-101"));
         return tt;
     }
 
@@ -154,10 +158,10 @@ public class CanIBunkGUI extends JFrame {
     // ══════════════════════════════════════════════════════════════════
     private void initUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1050, 720);
-        setMinimumSize(new Dimension(920, 660));
+        setSize(1080, 740);
+        setMinimumSize(new Dimension(960, 680));
         setLocationRelativeTo(null);
-        getContentPane().setBackground(BG_DARK);
+        getContentPane().setBackground(BG_MAIN);
         setLayout(new BorderLayout());
 
         // Build all card panels
@@ -177,41 +181,10 @@ public class CanIBunkGUI extends JFrame {
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  1. LOGIN PANEL — Animated with floating particles & glow
+    //  1. LOGIN PANEL — Clean, Modern Authentication Card
     // ══════════════════════════════════════════════════════════════════
-
-    /** A single floating particle for the login background animation */
-    private static class Particle {
-        double x, y, vx, vy, radius;
-        float alpha;
-        Color color;
-        Particle(Random r, int w, int h) {
-            x = r.nextDouble() * w;
-            y = r.nextDouble() * h;
-            vx = (r.nextDouble() - 0.5) * 1.2;
-            vy = (r.nextDouble() - 0.5) * 1.2;
-            radius = 2 + r.nextDouble() * 4;
-            alpha = 0.15f + r.nextFloat() * 0.45f;
-            Color[] palette = {ACCENT_CYAN, ACCENT_PURPLE, ACCENT_PINK, ACCENT_GREEN, ACCENT_AMBER};
-            color = palette[r.nextInt(palette.length)];
-        }
-        void tick(int w, int h) {
-            x += vx; y += vy;
-            if (x < 0 || x > w) vx = -vx;
-            if (y < 0 || y > h) vy = -vy;
-        }
-    }
-
     private JPanel buildLoginPanel() {
-        final ArrayList<Particle> particles = new ArrayList<>();
-        final Random rng = new Random(42);
-        for (int i = 0; i < 50; i++) particles.add(new Particle(rng, 1050, 720));
-
-        // Animated gradient + particle background
-        final float[] gradAngle = {0f};
-        final float[] glowPhase = {0f};
-        final int[] typingIdx = {0};
-        final String typingText = "Log in to AES Portal to sync your attendance...";
+        final float[] pulsePhase = {0f};
 
         JPanel panel = new JPanel() {
             @Override
@@ -220,167 +193,155 @@ public class CanIBunkGUI extends JFrame {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 int w = getWidth(), h = getHeight();
 
-                // Animated diagonal gradient background
-                double angle = Math.toRadians(gradAngle[0]);
-                float dx = (float) (Math.cos(angle) * w);
-                float dy = (float) (Math.sin(angle) * h);
-                GradientPaint gp = new GradientPaint(
-                    w / 2f - dx / 2, h / 2f - dy / 2, GRADIENT_START,
-                    w / 2f + dx / 2, h / 2f + dy / 2, GRADIENT_END);
-                g2.setPaint(gp);
+                // Subtle deep background fill
+                g2.setColor(BG_MAIN);
                 g2.fillRect(0, 0, w, h);
 
-                // Draw a subtle radial glow at the center
-                float glow = (float) (0.12 + 0.08 * Math.sin(glowPhase[0]));
+                // Very subtle top-center ambient glow
+                float pulse = (float) (0.05 + 0.03 * Math.sin(pulsePhase[0]));
                 RadialGradientPaint rgp = new RadialGradientPaint(
-                    w / 2f, h / 2f - 30, Math.max(w, h) * 0.45f,
+                    w / 2f, h * 0.32f, Math.max(w, h) * 0.5f,
                     new float[]{0f, 1f},
-                    new Color[]{new Color(138, 92, 246, (int)(glow * 255)), new Color(0, 0, 0, 0)});
+                    new Color[]{new Color(99, 102, 241, (int)(pulse * 255)), new Color(0, 0, 0, 0)});
                 g2.setPaint(rgp);
                 g2.fillRect(0, 0, w, h);
-
-                // Floating particles
-                for (Particle p : particles) {
-                    p.tick(w, h);
-                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p.alpha));
-                    g2.setColor(p.color);
-                    g2.fill(new Ellipse2D.Double(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2));
-                    // Draw a subtle glow around each particle
-                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p.alpha * 0.3f));
-                    g2.fill(new Ellipse2D.Double(p.x - p.radius * 2.5, p.y - p.radius * 2.5, p.radius * 5, p.radius * 5));
-                }
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
-                // Draw connection lines between close particles
-                g2.setStroke(new BasicStroke(0.5f));
-                for (int i = 0; i < particles.size(); i++) {
-                    for (int j = i + 1; j < particles.size(); j++) {
-                        Particle a = particles.get(i), b = particles.get(j);
-                        double dist = Math.hypot(a.x - b.x, a.y - b.y);
-                        if (dist < 120) {
-                            float lineAlpha = (float)((120 - dist) / 120.0 * 0.15);
-                            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, lineAlpha));
-                            g2.setColor(new Color(160, 160, 220));
-                            g2.draw(new Line2D.Double(a.x, a.y, b.x, b.y));
-                        }
-                    }
-                }
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
                 g2.dispose();
             }
         };
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 12, 8, 12);
+        gbc.insets = new Insets(10, 16, 10, 16);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Glassmorphism login card
+        // Clean Authentication Card
         JPanel card = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                // Glass background
-                g2.setColor(GLASS_BG);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 32, 32));
-                // Subtle glass border with glow
-                float borderGlow = (float) (0.4 + 0.2 * Math.sin(glowPhase[0] * 1.5));
-                g2.setColor(new Color(130, 130, 200, (int)(borderGlow * 255)));
-                g2.setStroke(new BasicStroke(1.5f));
-                g2.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, 32, 32));
-                // Top accent glow line
-                GradientPaint topGlow = new GradientPaint(0, 0, ACCENT_PURPLE, getWidth(), 0, ACCENT_CYAN);
+                int w = getWidth(), h = getHeight();
+
+                // Card background
+                g2.setColor(BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 16, 16));
+
+                // 1px subtle border
+                g2.setColor(BORDER_SUBTLE);
+                g2.setStroke(new BasicStroke(1.2f));
+                g2.draw(new RoundRectangle2D.Float(1, 1, w - 2, h - 2, 16, 16));
+
+                // Top accent indicator line
+                GradientPaint topGlow = new GradientPaint(0, 0, ACCENT_PRIMARY, w, 0, ACCENT_CYAN);
                 g2.setPaint(topGlow);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), 4, 8, 8));
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, 3, 4, 4));
+
                 g2.dispose();
             }
         };
-        card.setPreferredSize(new Dimension(400, 480));
+        card.setPreferredSize(new Dimension(420, 500));
         card.setOpaque(false);
         card.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(6, 24, 6, 24);
+        c.insets = new Insets(6, 28, 6, 28);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GridBagConstraints.REMAINDER;
 
-        // ── Logo icon with glow ──
-        JLabel icon = new JLabel("\uD83C\uDF93", SwingConstants.CENTER); // 🎓
-        icon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 56));
-        icon.setForeground(TEXT_PRIMARY);
-        c.insets = new Insets(24, 24, 0, 24);
-        card.add(icon, c);
+        // ── Brand Logo Icon & Badge ──
+        JPanel logoWrap = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        logoWrap.setOpaque(false);
+        JPanel logoBadge = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0, ACCENT_PRIMARY, getWidth(), getHeight(), new Color(79, 70, 229));
+                g2.setPaint(gp);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 12, 12));
+                g2.setColor(Color.WHITE);
+                g2.setFont(new Font("Segoe UI", Font.BOLD, 22));
+                FontMetrics fm = g2.getFontMetrics();
+                String s = "B";
+                g2.drawString(s, (getWidth() - fm.stringWidth(s)) / 2, (getHeight() + fm.getAscent() - fm.getDescent()) / 2);
+                g2.dispose();
+            }
+        };
+        logoBadge.setPreferredSize(new Dimension(44, 44));
+        logoBadge.setOpaque(false);
+        logoWrap.add(logoBadge);
+        c.insets = new Insets(26, 28, 8, 28);
+        card.add(logoWrap, c);
 
-        // ── Title with gradient-like colouring ──
-        JLabel title = new JLabel("CanIBunk.com", SwingConstants.CENTER);
-        title.setFont(FONT_LOGO);
-        title.setForeground(ACCENT_CYAN);
-        c.insets = new Insets(4, 24, 0, 24);
+        // ── Title ──
+        JLabel title = new JLabel("BUNKiT", SwingConstants.CENTER);
+        title.setFont(FONT_DISPLAY);
+        title.setForeground(TEXT_PRIMARY);
+        c.insets = new Insets(0, 28, 2, 28);
         card.add(title, c);
 
-        // ── Animated typing subtitle ──
-        JLabel subtitle = new JLabel(" ", SwingConstants.CENTER);
-        subtitle.setFont(FONT_BODY);
+        // ── Subtitle ──
+        JLabel subtitle = new JLabel("Intelligent College Attendance Monitor", SwingConstants.CENTER);
+        subtitle.setFont(FONT_SMALL);
         subtitle.setForeground(TEXT_SECONDARY);
-        c.insets = new Insets(0, 24, 18, 24);
+        c.insets = new Insets(0, 28, 20, 28);
         card.add(subtitle, c);
 
         // ── Username field ──
-        JLabel userLabel = new JLabel("  \uD83D\uDC64  Admission No / Username");
+        JLabel userLabel = new JLabel("Admission Number / Username");
         userLabel.setFont(FONT_SMALL);
         userLabel.setForeground(TEXT_SECONDARY);
-        c.insets = new Insets(4, 24, 2, 24);
+        c.insets = new Insets(4, 28, 3, 28);
         card.add(userLabel, c);
 
-        JTextField userField = createStyledTextField();
-        c.insets = new Insets(0, 24, 10, 24);
+        JTextField userField = createStyledTextField("e.g. 12345");
+        c.insets = new Insets(0, 28, 12, 28);
         card.add(userField, c);
 
         // ── Password field with show/hide toggle ──
-        JLabel passLabel = new JLabel("  \uD83D\uDD12  Password");
+        JLabel passLabel = new JLabel("Portal Password");
         passLabel.setFont(FONT_SMALL);
         passLabel.setForeground(TEXT_SECONDARY);
-        c.insets = new Insets(4, 24, 2, 24);
+        c.insets = new Insets(2, 28, 3, 28);
         card.add(passLabel, c);
 
-        JPanel passPanel = new JPanel(new BorderLayout(4, 0));
+        JPanel passPanel = new JPanel(new BorderLayout(6, 0));
         passPanel.setOpaque(false);
         JPasswordField passField = createStyledPasswordField();
         passPanel.add(passField, BorderLayout.CENTER);
 
-        JButton togglePass = new JButton("\uD83D\uDC41"); // 👁
-        togglePass.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 14));
-        togglePass.setPreferredSize(new Dimension(42, 38));
-        togglePass.setBackground(new Color(50, 50, 75));
+        JButton togglePass = new JButton("Show");
+        togglePass.setFont(FONT_BADGE);
+        togglePass.setPreferredSize(new Dimension(54, 38));
+        togglePass.setBackground(BG_SURFACE_SUBTLE);
         togglePass.setForeground(TEXT_SECONDARY);
-        togglePass.setBorder(BorderFactory.createLineBorder(new Color(70, 70, 110), 1, true));
+        togglePass.setBorder(BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true));
         togglePass.setFocusPainted(false);
         togglePass.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         final boolean[] passVisible = {false};
         togglePass.addActionListener(e -> {
             passVisible[0] = !passVisible[0];
             passField.setEchoChar(passVisible[0] ? (char) 0 : '\u2022');
-            togglePass.setText(passVisible[0] ? "\uD83D\uDE48" : "\uD83D\uDC41"); // 🙈 / 👁
+            togglePass.setText(passVisible[0] ? "Hide" : "Show");
         });
         passPanel.add(togglePass, BorderLayout.EAST);
-        c.insets = new Insets(0, 24, 16, 24);
+        c.insets = new Insets(0, 28, 16, 28);
         card.add(passPanel, c);
 
-        // ── Login button (gradient purple → cyan) ──
-        JButton loginBtn = createGradientButton("  \uD83D\uDD13  Log In & Sync  ", ACCENT_PURPLE, ACCENT_CYAN);
-        c.insets = new Insets(4, 24, 6, 24);
+        // ── Primary Button: Log In & Sync ──
+        JButton loginBtn = createPrimaryButton("Sign In & Sync Portal");
+        c.insets = new Insets(4, 28, 8, 28);
         card.add(loginBtn, c);
 
-        // ── Skip button (subtle dark) ──
-        JButton skipBtn = createGradientButton("  \u26A1  Skip  —  Use Sample Data  ", new Color(55, 55, 80), new Color(75, 75, 110));
-        c.insets = new Insets(0, 24, 10, 24);
+        // ── Secondary Button: Use Sample Data ──
+        JButton skipBtn = createOutlineButton("Continue with Sample Data");
+        c.insets = new Insets(0, 28, 12, 28);
         card.add(skipBtn, c);
 
         // ── Status label ──
         JLabel statusLabel = new JLabel(" ", SwingConstants.CENTER);
         statusLabel.setFont(FONT_SMALL);
-        statusLabel.setForeground(ACCENT_AMBER);
-        c.insets = new Insets(0, 24, 20, 24);
+        statusLabel.setForeground(TEXT_MUTED);
+        c.insets = new Insets(0, 28, 18, 28);
         card.add(statusLabel, c);
 
         // ── Actions ──
@@ -388,16 +349,15 @@ public class CanIBunkGUI extends JFrame {
             String username = userField.getText().trim();
             char[] password = passField.getPassword();
             if (username.isEmpty() || password.length == 0) {
-                statusLabel.setText("\u26A0 Please enter both username and password.");
+                statusLabel.setText("Please enter both admission number and password.");
                 statusLabel.setForeground(ACCENT_AMBER);
                 return;
             }
-            statusLabel.setText("\u23F3 Connecting to AES portal...");
+            statusLabel.setText("Connecting to AES student portal...");
             statusLabel.setForeground(ACCENT_CYAN);
             loginBtn.setEnabled(false);
             skipBtn.setEnabled(false);
 
-            // Run scraper in background thread to keep UI responsive
             SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
                 @Override
                 protected Boolean doInBackground() {
@@ -419,21 +379,19 @@ public class CanIBunkGUI extends JFrame {
                 protected void done() {
                     try {
                         if (get()) {
-                            statusLabel.setText("\u2714 Synced successfully!");
-                            statusLabel.setForeground(ACCENT_GREEN);
+                            statusLabel.setText("Synced successfully! Redirecting...");
+                            statusLabel.setForeground(ACCENT_EMERALD);
                         } else {
-                            statusLabel.setText("\u26A0 Could not sync. Proceeding with cached data.");
+                            statusLabel.setText("Could not sync live. Proceeding with cached data.");
                             statusLabel.setForeground(ACCENT_AMBER);
                             loadCachedDataIfAvailable();
                         }
                     } catch (Exception ex) {
-                        statusLabel.setText("\u26A0 Connection error. Using sample data.");
-                        statusLabel.setForeground(ACCENT_RED);
+                        statusLabel.setText("Connection failed. Loaded offline sample data.");
+                        statusLabel.setForeground(ACCENT_ROSE);
                     }
-                    // Clear password from memory
                     java.util.Arrays.fill(password, '\0');
-                    // Transition to main menu after a brief pause
-                    Timer t = new Timer(1200, ev -> {
+                    Timer t = new Timer(800, ev -> {
                         stopLoginAnimation();
                         refreshAllPanels();
                         cardLayout.show(contentPanel, "MENU");
@@ -452,25 +410,13 @@ public class CanIBunkGUI extends JFrame {
             cardLayout.show(contentPanel, "MENU");
         });
 
-        // Enter key on password field triggers login
         passField.addActionListener(e -> loginBtn.doClick());
 
         panel.add(card, gbc);
 
-        // ── Start animation timer ──
-        loginAnimTimer = new Timer(30, e -> {
-            gradAngle[0] += 0.3f;
-            if (gradAngle[0] > 360) gradAngle[0] -= 360;
-            glowPhase[0] += 0.05f;
-            // Typing animation
-            if (typingIdx[0] < typingText.length()) {
-                typingIdx[0]++;
-                subtitle.setText(typingText.substring(0, typingIdx[0]) + "\u258C"); // ▌ cursor
-            } else {
-                // Blinking cursor
-                boolean showCursor = ((int)(glowPhase[0] * 10)) % 2 == 0;
-                subtitle.setText(typingText + (showCursor ? "\u258C" : " "));
-            }
+        // Gentle pulse timer for ambient lighting
+        loginAnimTimer = new Timer(40, e -> {
+            pulsePhase[0] += 0.04f;
             panel.repaint();
         });
         loginAnimTimer.start();
@@ -499,96 +445,219 @@ public class CanIBunkGUI extends JFrame {
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  2. MAIN MENU PANEL — Enhanced with glow cards
+    //  2. MAIN MENU / DASHBOARD PANEL
     // ══════════════════════════════════════════════════════════════════
     private JPanel buildMainMenuPanel() {
-        GradientPanel panel = new GradientPanel(BG_DARK, new Color(10, 10, 25));
-        panel.setLayout(new BorderLayout());
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(BG_MAIN);
 
-        // Header
-        JPanel header = new JPanel();
-        header.setOpaque(false);
-        header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
-        header.setBorder(BorderFactory.createEmptyBorder(30, 0, 10, 0));
+        // ── Top Navigation Bar ──
+        JPanel topNav = new JPanel(new BorderLayout());
+        topNav.setOpaque(false);
+        topNav.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_SUBTLE),
+            BorderFactory.createEmptyBorder(18, 36, 18, 36)
+        ));
 
-        JLabel titleLabel = new JLabel("\uD83C\uDF93 CanIBunk.com");
-        titleLabel.setFont(FONT_TITLE);
-        titleLabel.setForeground(ACCENT_CYAN);
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(titleLabel);
+        // Brand section
+        JPanel brandSection = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        brandSection.setOpaque(false);
 
-        JLabel subLabel = new JLabel("Intelligent Attendance Monitor & Bunk Predictor");
-        subLabel.setFont(FONT_BODY);
-        subLabel.setForeground(TEXT_SECONDARY);
-        subLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(Box.createVerticalStrut(4));
-        header.add(subLabel);
+        JLabel brandIcon = new JLabel("●");
+        brandIcon.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        brandIcon.setForeground(ACCENT_PRIMARY);
+        brandSection.add(brandIcon);
 
-        JLabel ruleLabel = new JLabel("75.0% Strict Attendance Threshold  \u2022  Semester 3");
-        ruleLabel.setFont(FONT_SMALL);
-        ruleLabel.setForeground(new Color(120, 120, 160));
-        ruleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.add(Box.createVerticalStrut(4));
-        header.add(ruleLabel);
+        JLabel brandLabel = new JLabel("BUNKiT");
+        brandLabel.setFont(FONT_TITLE);
+        brandLabel.setForeground(TEXT_PRIMARY);
+        brandSection.add(brandLabel);
 
-        panel.add(header, BorderLayout.NORTH);
+        // Status badge
+        JLabel badge = createPillBadge("Semester 3 • 75% Rule", new Color(99, 102, 241, 35), ACCENT_PRIMARY);
+        brandSection.add(badge);
+        topNav.add(brandSection, BorderLayout.WEST);
 
-        // Button grid — 2×2 with glow cards
-        JPanel grid = new JPanel(new GridLayout(2, 2, 22, 22));
-        grid.setOpaque(false);
-        grid.setBorder(BorderFactory.createEmptyBorder(24, 60, 24, 60));
+        // Right details: Date & Status
+        JPanel rightSection = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
+        rightSection.setOpaque(false);
 
-        grid.add(createMenuCard("\u23F0", "View Today's Schedule",
-                "Check the day & see upcoming classes",    ACCENT_CYAN,   "SCHEDULE"));
-        grid.add(createMenuCard("\uD83D\uDCCA", "Attendance Status",
-                "View all subjects & attendance %",        ACCENT_GREEN,  "ATTENDANCE"));
-        grid.add(createMenuCard("\uD83D\uDCC5", "Academic Calendar",
-                "Working days left & semester milestones",  ACCENT_AMBER,  "CALENDAR"));
-        grid.add(createMenuCard("\uD83C\uDFAF", "Check Bunkability",
-                "Choose subject \u2192 see % drop & verdict", ACCENT_PINK,   "BUNKABILITY"));
-
-        panel.add(grid, BorderLayout.CENTER);
-
-        // Footer with user-info bar and exit button
-        JPanel footer = new JPanel(new BorderLayout());
-        footer.setOpaque(false);
-        footer.setBorder(BorderFactory.createEmptyBorder(0, 60, 20, 60));
-
-        // Left side: current date
-        JLabel dateLabel = new JLabel("\uD83D\uDCC6  " + LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")));
+        JLabel dateLabel = new JLabel(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMM yyyy")));
         dateLabel.setFont(FONT_SMALL);
         dateLabel.setForeground(TEXT_SECONDARY);
-        footer.add(dateLabel, BorderLayout.WEST);
+        rightSection.add(dateLabel);
 
-        // Center: exit button
-        JPanel exitWrap = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        exitWrap.setOpaque(false);
-        JButton exitBtn = createGradientButton("  Exit  ", new Color(80, 20, 20), new Color(140, 30, 30));
-        exitBtn.setPreferredSize(new Dimension(120, 36));
+        JLabel syncStatus = createPillBadge("● AES Active", new Color(34, 197, 94, 30), ACCENT_EMERALD);
+        rightSection.add(syncStatus);
+
+        topNav.add(rightSection, BorderLayout.EAST);
+        panel.add(topNav, BorderLayout.NORTH);
+
+        // ── Center Content: KPI Summary + Module Grid ──
+        JPanel centerPanel = new JPanel();
+        centerPanel.setOpaque(false);
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(24, 36, 20, 36));
+
+        // ── Quick KPI Strip ──
+        JPanel kpiStrip = buildDashboardKpiStrip();
+        centerPanel.add(kpiStrip);
+        centerPanel.add(Box.createVerticalStrut(24));
+
+        // Section Title
+        JLabel sectionTitle = new JLabel("Workspace Modules");
+        sectionTitle.setFont(FONT_SUBHEAD);
+        sectionTitle.setForeground(TEXT_SECONDARY);
+        sectionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        centerPanel.add(sectionTitle);
+        centerPanel.add(Box.createVerticalStrut(12));
+
+        // ── Module Cards (2x2 Grid) ──
+        JPanel grid = new JPanel(new GridLayout(2, 2, 18, 18));
+        grid.setOpaque(false);
+        grid.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        grid.add(createDashboardCard(
+                "📅",
+                "Today's Schedule",
+                "Daily lecture timeline, room allocations, and real-time bunkability verdicts.",
+                ACCENT_CYAN,
+                "SCHEDULE"));
+
+        grid.add(createDashboardCard(
+                "📊",
+                "Attendance Matrix",
+                "Comprehensive subject status, attended hours, percentage standings, and safe bunks.",
+                ACCENT_EMERALD,
+                "ATTENDANCE"));
+
+        grid.add(createDashboardCard(
+                "🗓️",
+                "Academic Calendar",
+                "Instructional days elapsed, remaining working days, condonation deadlines & exam schedule.",
+                ACCENT_AMBER,
+                "CALENDAR"));
+
+        grid.add(createDashboardCard(
+                "🎯",
+                "Bunkability Calculator",
+                "Simulate exact percentage drops before skipping classes and verify recovery needs.",
+                ACCENT_PRIMARY,
+                "BUNKABILITY"));
+
+        centerPanel.add(grid);
+        centerPanel.add(Box.createVerticalGlue());
+
+        JScrollPane centerScroll = createModernScrollPane(centerPanel);
+        panel.add(centerScroll, BorderLayout.CENTER);
+
+        // ── Footer ──
+        JPanel footer = new JPanel(new BorderLayout());
+        footer.setOpaque(false);
+        footer.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 0, 0, BORDER_SUBTLE),
+            BorderFactory.createEmptyBorder(12, 36, 12, 36)
+        ));
+
+        JLabel infoText = new JLabel("BUNKiT Academic Platform  •  Custom Data Structures (HashMap, BST, DLL, Stack, Queue)");
+        infoText.setFont(FONT_SMALL);
+        infoText.setForeground(TEXT_MUTED);
+        footer.add(infoText, BorderLayout.WEST);
+
+        JButton exitBtn = createOutlineButton("Exit Application");
+        exitBtn.setPreferredSize(new Dimension(130, 32));
         exitBtn.addActionListener(e -> System.exit(0));
-        exitWrap.add(exitBtn);
-        footer.add(exitWrap, BorderLayout.CENTER);
-
-        // Right side: subject count
-        JLabel countLabel = new JLabel(subjectRegistry.size() + " subjects loaded  \u2714");
-        countLabel.setFont(FONT_SMALL);
-        countLabel.setForeground(ACCENT_GREEN);
-        footer.add(countLabel, BorderLayout.EAST);
+        footer.add(exitBtn, BorderLayout.EAST);
 
         panel.add(footer, BorderLayout.SOUTH);
-
         return panel;
     }
 
-    /**
-     * Creates a single menu card with glow-on-hover effect.
-     * Paints a rounded rectangle with an accent-coloured top bar and 
-     * draws a glow border ring on hover using transparent accent colours.
-     */
-    private JPanel createMenuCard(String emoji, String title, String desc, Color accent, String target) {
+    private JPanel buildDashboardKpiStrip() {
+        JPanel strip = new JPanel(new GridLayout(1, 4, 16, 0));
+        strip.setOpaque(false);
+        strip.setMaximumSize(new Dimension(Integer.MAX_VALUE, 86));
+        strip.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Calculate dynamic stats
+        int totalAttended = 0;
+        int totalClasses = 0;
+        int safeCount = 0;
+        int criticalCount = 0;
+
+        for (Subject s : subjectRegistry.values()) {
+            totalAttended += s.getAttendedClasses();
+            totalClasses += s.getTotalClasses();
+            if (s.getStatus() == AttendanceStatus.SAFE) safeCount++;
+            else criticalCount++;
+        }
+        double avgPct = totalClasses > 0 ? ((double) totalAttended / totalClasses) * 100.0 : 0.0;
+        int workingDaysLeft = calendarService.countWorkingDaysRemaining(calendarManager, LocalDate.now());
+
+        strip.add(createMetricCard("OVERALL ATTENDANCE", String.format("%.1f%%", avgPct),
+                avgPct >= 75.0 ? "On Track (≥ 75%)" : "Shortage Warning",
+                avgPct >= 75.0 ? ACCENT_EMERALD : ACCENT_ROSE));
+
+        strip.add(createMetricCard("SAFE SUBJECTS", safeCount + " of " + subjectRegistry.size(),
+                "Meeting attendance quota", ACCENT_EMERALD));
+
+        strip.add(createMetricCard("ACTION REQUIRED", String.valueOf(criticalCount),
+                criticalCount == 0 ? "All subjects clear" : criticalCount + " subject(s) at risk",
+                criticalCount == 0 ? ACCENT_EMERALD : ACCENT_ROSE));
+
+        strip.add(createMetricCard("WORKING DAYS LEFT", String.valueOf(workingDaysLeft),
+                "Instructional days to exams", ACCENT_CYAN));
+
+        return strip;
+    }
+
+    private JPanel createMetricCard(String kicker, String value, String sub, Color accent) {
+        JPanel card = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                int w = getWidth(), h = getHeight();
+
+                g2.setColor(BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 12, 12));
+
+                g2.setColor(BORDER_SUBTLE);
+                g2.setStroke(new BasicStroke(1f));
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, w - 1f, h - 1f, 12, 12));
+
+                // Left accent bar
+                g2.setColor(accent);
+                g2.fill(new RoundRectangle2D.Float(0, 0, 3, h, 3, 3));
+                g2.dispose();
+            }
+        };
+        card.setOpaque(false);
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
+
+        JLabel kickerLabel = new JLabel(kicker);
+        kickerLabel.setFont(FONT_BADGE);
+        kickerLabel.setForeground(TEXT_MUTED);
+        card.add(kickerLabel);
+        card.add(Box.createVerticalStrut(3));
+
+        JLabel valLabel = new JLabel(value);
+        valLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        valLabel.setForeground(TEXT_PRIMARY);
+        card.add(valLabel);
+        card.add(Box.createVerticalStrut(2));
+
+        JLabel subLabel = new JLabel(sub);
+        subLabel.setFont(FONT_SMALL);
+        subLabel.setForeground(accent);
+        card.add(subLabel);
+
+        return card;
+    }
+
+    private JPanel createDashboardCard(String icon, String title, String desc, Color accent, String target) {
         final boolean[] hovered = {false};
-        final float[] hoverAnim = {0f}; // 0 → 1 for smooth transition
-        final Timer[] animTimer = {null};
 
         JPanel card = new JPanel() {
             @Override
@@ -597,92 +666,81 @@ public class CanIBunkGUI extends JFrame {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 int w = getWidth(), h = getHeight();
 
-                // Glow shadow behind card on hover
-                if (hoverAnim[0] > 0.01f) {
-                    int glowSize = (int) (12 * hoverAnim[0]);
-                    for (int i = glowSize; i > 0; i--) {
-                        float alpha = hoverAnim[0] * 0.04f * (glowSize - i + 1);
-                        g2.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(),
-                                (int)(Math.min(alpha, 1f) * 255)));
-                        g2.fill(new RoundRectangle2D.Float(-i, -i, w + i * 2, h + i * 2, 24 + i, 24 + i));
-                    }
-                }
+                // Surface
+                g2.setColor(hovered[0] ? BG_SURFACE_HOVER : BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 14, 14));
 
-                // Card fill
-                Color fillColor = hovered[0] ? BG_CARD_HOVER : BG_CARD;
-                g2.setColor(fillColor);
-                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 24, 24));
-
-                // Accent bar on top
-                g2.setColor(accent);
-                g2.fill(new RoundRectangle2D.Float(0, 0, w, 5, 6, 6));
-
-                // Border on hover
-                if (hoverAnim[0] > 0.01f) {
-                    g2.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(),
-                            (int)(hoverAnim[0] * 180)));
-                    g2.setStroke(new BasicStroke(2f));
-                    g2.draw(new RoundRectangle2D.Float(1, 1, w - 2, h - 2, 24, 24));
-                }
+                // Border
+                g2.setColor(hovered[0] ? accent : BORDER_SUBTLE);
+                g2.setStroke(new BasicStroke(hovered[0] ? 1.5f : 1f));
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, w - 1f, h - 1f, 14, 14));
 
                 g2.dispose();
             }
         };
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setOpaque(false);
-        card.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createEmptyBorder(22, 24, 20, 24));
         card.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        JLabel emojiLabel = new JLabel(emoji);
-        emojiLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 40));
-        emojiLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(emojiLabel);
-        card.add(Box.createVerticalStrut(12));
+        // Header: icon badge
+        JPanel iconBadge = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 32));
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 10, 10));
+                g2.dispose();
+            }
+        };
+        iconBadge.setOpaque(false);
+        iconBadge.setPreferredSize(new Dimension(38, 38));
+        iconBadge.setMaximumSize(new Dimension(38, 38));
+        iconBadge.setAlignmentX(Component.LEFT_ALIGNMENT);
+        iconBadge.setLayout(new GridBagLayout());
+
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
+        iconBadge.add(iconLabel);
+        card.add(iconBadge);
+        card.add(Box.createVerticalStrut(14));
 
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(FONT_HEADING);
+        titleLabel.setFont(FONT_TITLE);
         titleLabel.setForeground(TEXT_PRIMARY);
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(titleLabel);
         card.add(Box.createVerticalStrut(6));
 
-        JLabel descLabel = new JLabel(desc);
+        JLabel descLabel = new JLabel("<html>" + desc + "</html>");
         descLabel.setFont(FONT_BODY);
         descLabel.setForeground(TEXT_SECONDARY);
         descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         card.add(descLabel);
         card.add(Box.createVerticalGlue());
 
-        // Arrow indicator at bottom right
-        JLabel arrowLabel = new JLabel("\u2192");
-        arrowLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        arrowLabel.setForeground(accent);
-        arrowLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        card.add(arrowLabel);
+        // Footer action link
+        JPanel linkRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        linkRow.setOpaque(false);
+        linkRow.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Hover animation
+        JLabel linkText = new JLabel("Launch Module →");
+        linkText.setFont(FONT_BODY_SEMIBOLD);
+        linkText.setForeground(accent);
+        linkRow.add(linkText);
+        card.add(linkRow);
+
         card.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 hovered[0] = true;
-                if (animTimer[0] != null) animTimer[0].stop();
-                animTimer[0] = new Timer(16, ev -> {
-                    hoverAnim[0] = Math.min(1f, hoverAnim[0] + 0.12f);
-                    card.repaint();
-                    if (hoverAnim[0] >= 1f) ((Timer) ev.getSource()).stop();
-                });
-                animTimer[0].start();
+                card.repaint();
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 hovered[0] = false;
-                if (animTimer[0] != null) animTimer[0].stop();
-                animTimer[0] = new Timer(16, ev -> {
-                    hoverAnim[0] = Math.max(0f, hoverAnim[0] - 0.08f);
-                    card.repaint();
-                    if (hoverAnim[0] <= 0f) ((Timer) ev.getSource()).stop();
-                });
-                animTimer[0].start();
+                card.repaint();
             }
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -700,24 +758,16 @@ public class CanIBunkGUI extends JFrame {
     private JPanel scheduleContent;
 
     private JPanel buildSchedulePanel() {
-        GradientPanel panel = new GradientPanel(BG_DARK, new Color(5, 15, 30));
-        panel.setLayout(new BorderLayout());
-
-        // Top bar
-        panel.add(buildTopBar("\u23F0  Today's Schedule", ACCENT_CYAN), BorderLayout.NORTH);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(BG_MAIN);
+        panel.add(buildTopBar("Today's Schedule", "Daily lecture timetable & skip impact analysis", ACCENT_CYAN), BorderLayout.NORTH);
 
         scheduleContent = new JPanel();
         scheduleContent.setOpaque(false);
         scheduleContent.setLayout(new BorderLayout());
         populateScheduleContent();
 
-        JScrollPane scroll = new JScrollPane(scheduleContent);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setBorder(null);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        panel.add(scroll, BorderLayout.CENTER);
-
+        panel.add(createModernScrollPane(scheduleContent), BorderLayout.CENTER);
         return panel;
     }
 
@@ -728,156 +778,65 @@ public class CanIBunkGUI extends JFrame {
         String dayName = dayOfWeek.name();
 
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-            // ── Weekend message — animated & creative ──
-            JPanel weekendPanel = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    int w = getWidth(), h = getHeight();
-                    // Radial glow
-                    RadialGradientPaint rgp = new RadialGradientPaint(
-                        w / 2f, h / 2f - 40, Math.max(w, h) * 0.35f,
-                        new float[]{0f, 1f},
-                        new Color[]{new Color(34, 197, 94, 30), new Color(0, 0, 0, 0)});
-                    g2.setPaint(rgp);
-                    g2.fillRect(0, 0, w, h);
-                    g2.dispose();
-                }
-            };
+            // Clean Weekend Card
+            JPanel weekendPanel = new JPanel();
             weekendPanel.setOpaque(false);
             weekendPanel.setLayout(new BoxLayout(weekendPanel, BoxLayout.Y_AXIS));
-            weekendPanel.setBorder(BorderFactory.createEmptyBorder(60, 60, 60, 60));
+            weekendPanel.setBorder(BorderFactory.createEmptyBorder(60, 40, 60, 40));
 
-            JLabel sunEmoji = new JLabel("\uD83C\uDFD6\uFE0F", SwingConstants.CENTER);
-            sunEmoji.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 80));
-            sunEmoji.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weekendPanel.add(sunEmoji);
-            weekendPanel.add(Box.createVerticalStrut(24));
+            JPanel card = new JPanel();
+            card.setOpaque(false);
+            card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+                BorderFactory.createEmptyBorder(36, 40, 36, 40)
+            ));
+            card.setMaximumSize(new Dimension(640, 300));
+            card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel woohoo = new JLabel("Woohoo! It's " + dayName + "!", SwingConstants.CENTER);
-            woohoo.setFont(new Font("Segoe UI", Font.BOLD, 32));
-            woohoo.setForeground(ACCENT_GREEN);
-            woohoo.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weekendPanel.add(woohoo);
-            weekendPanel.add(Box.createVerticalStrut(14));
+            JLabel title = new JLabel("Weekend — No Lectures Scheduled");
+            title.setFont(FONT_DISPLAY);
+            title.setForeground(TEXT_PRIMARY);
+            title.setAlignmentX(Component.CENTER_ALIGNMENT);
+            card.add(title);
+            card.add(Box.createVerticalStrut(10));
 
-            JLabel restMsg = new JLabel("Take rest! You are completely free today.", SwingConstants.CENTER);
-            restMsg.setFont(FONT_HEADING);
-            restMsg.setForeground(TEXT_PRIMARY);
-            restMsg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weekendPanel.add(restMsg);
-            weekendPanel.add(Box.createVerticalStrut(10));
+            JLabel subtitle = new JLabel("It's " + dayName + ". College classes will resume on Monday morning.", SwingConstants.CENTER);
+            subtitle.setFont(FONT_BODY);
+            subtitle.setForeground(TEXT_SECONDARY);
+            subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+            card.add(subtitle);
+            card.add(Box.createVerticalStrut(24));
 
-            JLabel coffeeMsg = new JLabel("\u2615  No college classes scheduled. Enjoy your weekend and recharge!", SwingConstants.CENTER);
-            coffeeMsg.setFont(FONT_BODY);
-            coffeeMsg.setForeground(TEXT_SECONDARY);
-            coffeeMsg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            weekendPanel.add(coffeeMsg);
-            weekendPanel.add(Box.createVerticalStrut(20));
+            // Summary row inside weekend card
+            JPanel quickSummary = new JPanel(new GridLayout(1, 2, 16, 0));
+            quickSummary.setOpaque(false);
+            quickSummary.setMaximumSize(new Dimension(540, 70));
 
-            // Fun tips
-            JPanel tipCard = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(new Color(30, 60, 40, 160));
-                    g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 16, 16));
-                    g2.dispose();
-                }
-            };
-            tipCard.setOpaque(false);
-            tipCard.setLayout(new BoxLayout(tipCard, BoxLayout.Y_AXIS));
-            tipCard.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
-            tipCard.setMaximumSize(new Dimension(500, 120));
-            tipCard.setAlignmentX(Component.CENTER_ALIGNMENT);
+            quickSummary.add(createMetricCard("OVERALL STATUS", "On Track", "All critical subjects monitored", ACCENT_EMERALD));
+            quickSummary.add(createMetricCard("UPCOMING MONDAY", "5 Lectures", "09:00 AM First Period", ACCENT_CYAN));
+            card.add(quickSummary);
 
-            JLabel tipTitle = new JLabel("\uD83D\uDCA1  Weekend Tips");
-            tipTitle.setFont(FONT_BUTTON);
-            tipTitle.setForeground(ACCENT_GREEN);
-            tipTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-            tipCard.add(tipTitle);
-            tipCard.add(Box.createVerticalStrut(8));
-
-            String[] tips = {
-                "\u2022  Catch up on pending assignments",
-                "\u2022  Review notes for subjects below 80%",
-                "\u2022  Get some fresh air and exercise!"
-            };
-            for (String tip : tips) {
-                JLabel tipLabel = new JLabel(tip);
-                tipLabel.setFont(FONT_BODY);
-                tipLabel.setForeground(TEXT_SECONDARY);
-                tipLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-                tipCard.add(tipLabel);
-            }
-            weekendPanel.add(tipCard);
-
+            weekendPanel.add(card);
             scheduleContent.add(weekendPanel, BorderLayout.CENTER);
         } else {
-            // ── Weekday: show today's schedule table ──
+            // Weekday Table View
             scheduleManager.loadDay(dayName);
             List<ClassSession> sessions = scheduleManager.getSessionsForDay(dayName);
 
             JPanel tablePanel = new JPanel(new BorderLayout());
             tablePanel.setOpaque(false);
-            tablePanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+            tablePanel.setBorder(BorderFactory.createEmptyBorder(24, 36, 24, 36));
 
-            JLabel dayLabel = new JLabel("\uD83D\uDCC5  " + dayName + " \u2014 " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy")));
-            dayLabel.setFont(FONT_HEADING);
+            JPanel headerRow = new JPanel(new BorderLayout());
+            headerRow.setOpaque(false);
+            headerRow.setBorder(BorderFactory.createEmptyBorder(0, 0, 16, 0));
+
+            JLabel dayLabel = new JLabel(dayName + "  •  " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+            dayLabel.setFont(FONT_TITLE);
             dayLabel.setForeground(TEXT_PRIMARY);
-            dayLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 12, 0));
-            tablePanel.add(dayLabel, BorderLayout.NORTH);
+            headerRow.add(dayLabel, BorderLayout.WEST);
 
-            String[] columns = {"Period", "Time Slot", "Subject Code", "Subject Name", "Room", "Attendance", "Bunkable?"};
-            Object[][] data;
-
-            if (sessions != null && !sessions.isEmpty()) {
-                data = new Object[sessions.size()][7];
-                for (int i = 0; i < sessions.size(); i++) {
-                    ClassSession cs = sessions.get(i);
-                    Subject sub = subjectRegistry.get(cs.getSubjectCode());
-                    data[i][0] = cs.getPeriodNumber();
-                    data[i][1] = cs.getTimeSlot();
-                    data[i][2] = cs.getSubjectCode();
-                    data[i][3] = cs.getSubjectName();
-                    data[i][4] = cs.getClassroom();
-                    data[i][5] = sub != null ? String.format("%.1f%%", sub.getAttendancePercentage()) : "N/A";
-                    data[i][6] = sub != null ? (sub.isBunkableNextHour() ? "\u2714 YES" : "\u2716 NO") : "N/A";
-                }
-            } else {
-                data = new Object[0][7];
-            }
-
-            JTable table = createStyledTable(data, columns);
-            // Custom cell renderer for bunkable column
-            table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                    Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                    if (value != null) {
-                        String v = value.toString();
-                        if (v.contains("YES")) setForeground(SAFE_GREEN);
-                        else if (v.contains("NO")) setForeground(DANGER_RED);
-                        else setForeground(TEXT_PRIMARY);
-                    }
-                    setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                    setHorizontalAlignment(SwingConstants.CENTER);
-                    return c;
-                }
-            });
-
-            JScrollPane tableScroll = new JScrollPane(table);
-            tableScroll.setOpaque(false);
-            tableScroll.getViewport().setOpaque(false);
-            tableScroll.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 80), 1, true));
-            tablePanel.add(tableScroll, BorderLayout.CENTER);
-
-            // Summary bar below table
-            JPanel summaryBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 8));
-            summaryBar.setOpaque(false);
-            summaryBar.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
             int totalClasses = sessions != null ? sessions.size() : 0;
             int bunkableCount = 0;
             if (sessions != null) {
@@ -886,17 +845,38 @@ public class CanIBunkGUI extends JFrame {
                     if (sub != null && sub.isBunkableNextHour()) bunkableCount++;
                 }
             }
-            JLabel classesSummary = new JLabel("\uD83D\uDCDA  " + totalClasses + " classes today");
-            classesSummary.setFont(FONT_BODY);
-            classesSummary.setForeground(TEXT_PRIMARY);
-            summaryBar.add(classesSummary);
 
-            JLabel bunkSummary = new JLabel("\u2714  " + bunkableCount + " bunkable");
-            bunkSummary.setFont(FONT_BODY);
-            bunkSummary.setForeground(bunkableCount > 0 ? SAFE_GREEN : DANGER_RED);
-            summaryBar.add(bunkSummary);
+            JLabel badgeSummary = createPillBadge(
+                    totalClasses + " Classes Today  •  " + bunkableCount + " Safe to Skip",
+                    new Color(56, 189, 248, 30), ACCENT_CYAN);
+            headerRow.add(badgeSummary, BorderLayout.EAST);
+            tablePanel.add(headerRow, BorderLayout.NORTH);
 
-            tablePanel.add(summaryBar, BorderLayout.SOUTH);
+            String[] columns = {"Period", "Time Slot", "Code", "Subject Name", "Room", "Attendance %", "Bunkable Next?"};
+            Object[][] data;
+
+            if (sessions != null && !sessions.isEmpty()) {
+                data = new Object[sessions.size()][7];
+                for (int i = 0; i < sessions.size(); i++) {
+                    ClassSession cs = sessions.get(i);
+                    Subject sub = subjectRegistry.get(cs.getSubjectCode());
+                    data[i][0] = "Period " + cs.getPeriodNumber();
+                    data[i][1] = cs.getTimeSlot();
+                    data[i][2] = cs.getSubjectCode();
+                    data[i][3] = cs.getSubjectName();
+                    data[i][4] = cs.getClassroom();
+                    data[i][5] = sub != null ? String.format("%.2f%%", sub.getAttendancePercentage()) : "—";
+                    data[i][6] = sub != null ? (sub.isBunkableNextHour() ? "SAFE" : "CRITICAL") : "—";
+                }
+            } else {
+                data = new Object[0][7];
+            }
+
+            JTable table = createStyledTable(data, columns);
+            table.getColumnModel().getColumn(6).setCellRenderer(new PillCellRenderer());
+
+            JScrollPane tableScroll = createModernScrollPane(table);
+            tablePanel.add(tableScroll, BorderLayout.CENTER);
 
             scheduleContent.add(tablePanel, BorderLayout.CENTER);
         }
@@ -906,37 +886,31 @@ public class CanIBunkGUI extends JFrame {
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  4. ATTENDANCE STATUS PANEL — with progress bars
+    //  4. ATTENDANCE STATUS PANEL
     // ══════════════════════════════════════════════════════════════════
     private JPanel attendanceContent;
 
     private JPanel buildAttendancePanel() {
-        GradientPanel panel = new GradientPanel(BG_DARK, new Color(5, 20, 15));
-        panel.setLayout(new BorderLayout());
-        panel.add(buildTopBar("\uD83D\uDCCA  My Attendance Status", ACCENT_GREEN), BorderLayout.NORTH);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(BG_MAIN);
+        panel.add(buildTopBar("Attendance Status Matrix", "Complete subject metrics & safety buffer overview", ACCENT_EMERALD), BorderLayout.NORTH);
 
         attendanceContent = new JPanel(new BorderLayout());
         attendanceContent.setOpaque(false);
         populateAttendanceContent();
 
-        JScrollPane scroll = new JScrollPane(attendanceContent);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setBorder(null);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        panel.add(scroll, BorderLayout.CENTER);
-
+        panel.add(createModernScrollPane(attendanceContent), BorderLayout.CENTER);
         return panel;
     }
 
     private void populateAttendanceContent() {
         attendanceContent.removeAll();
-        attendanceContent.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        attendanceContent.setBorder(BorderFactory.createEmptyBorder(24, 36, 24, 36));
 
-        // Summary cards row
+        // Summary Cards Row
         JPanel summaryRow = new JPanel(new GridLayout(1, 3, 16, 0));
         summaryRow.setOpaque(false);
-        summaryRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        summaryRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 86));
 
         int safeCount = 0, edgeCount = 0, critCount = 0;
         for (Subject s : subjectRegistry.values()) {
@@ -946,89 +920,35 @@ public class CanIBunkGUI extends JFrame {
                 case CRITICAL: critCount++; break;
             }
         }
-        summaryRow.add(createStatCard("\u2705 Safe", String.valueOf(safeCount), SAFE_GREEN));
-        summaryRow.add(createStatCard("\u26A0\uFE0F On Edge", String.valueOf(edgeCount), EDGE_YELLOW));
-        summaryRow.add(createStatCard("\uD83D\uDEA8 Critical", String.valueOf(critCount), DANGER_RED));
+        summaryRow.add(createMetricCard("SAFE SUBJECTS", safeCount + " Subjects", "Attendance strictly ≥ 80%", ACCENT_EMERALD));
+        summaryRow.add(createMetricCard("BORDERLINE / ON EDGE", edgeCount + " Subjects", "Between 75% and 80%", ACCENT_AMBER));
+        summaryRow.add(createMetricCard("CRITICAL SHORTAGE", critCount + " Subjects", "Below 75% university rule", ACCENT_ROSE));
 
         attendanceContent.add(summaryRow, BorderLayout.NORTH);
 
         // Table
-        String[] columns = {"Code", "Subject Name", "Attended", "Percent", "Status", "Bunks Left", "Needed", "Bunkable?"};
+        String[] columns = {"Code", "Subject Title", "Attended / Conducted", "Current %", "Status", "Safe Bunks Left", "Recovery Needed", "Can Skip Next?"};
         java.util.Collection<Subject> subjects = subjectRegistry.values();
         Object[][] data = new Object[subjects.size()][8];
         int i = 0;
         for (Subject s : subjects) {
             data[i][0] = s.getSubjectCode();
             data[i][1] = s.getSubjectName();
-            data[i][2] = s.getAttendedClasses() + " / " + s.getTotalClasses();
+            data[i][2] = s.getAttendedClasses() + " of " + s.getTotalClasses();
             data[i][3] = String.format("%.2f%%", s.getAttendancePercentage());
             data[i][4] = s.getStatus().name();
-            data[i][5] = s.getSafeBunks();
-            data[i][6] = s.getClassesNeededTo75();
-            data[i][7] = s.isBunkableNextHour() ? "\u2714 YES" : "\u2716 NO";
+            data[i][5] = s.getSafeBunks() > 0 ? s.getSafeBunks() + " classes" : "0 classes";
+            data[i][6] = s.getClassesNeededTo75() > 0 ? "Must attend " + s.getClassesNeededTo75() : "Quota satisfied";
+            data[i][7] = s.isBunkableNextHour() ? "YES" : "NO";
             i++;
         }
 
         JTable table = createStyledTable(data, columns);
+        table.getColumnModel().getColumn(4).setCellRenderer(new PillCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new PillCellRenderer());
 
-        // Colour the Status column
-        table.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                if (value != null) {
-                    String v = value.toString();
-                    if (v.equals("SAFE")) { setForeground(SAFE_GREEN); setText("\u2705 SAFE"); }
-                    else if (v.equals("ON_THE_EDGE")) { setForeground(EDGE_YELLOW); setText("\u26A0 EDGE"); }
-                    else if (v.equals("CRITICAL")) { setForeground(DANGER_RED); setText("\uD83D\uDEA8 CRIT"); }
-                    else setForeground(TEXT_PRIMARY);
-                }
-                setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                setHorizontalAlignment(SwingConstants.CENTER);
-                return c;
-            }
-        });
-        // Colour the Bunkable column
-        table.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                if (value != null) {
-                    String v = value.toString();
-                    if (v.contains("YES")) setForeground(SAFE_GREEN);
-                    else if (v.contains("NO")) setForeground(DANGER_RED);
-                    else setForeground(TEXT_PRIMARY);
-                }
-                setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                setHorizontalAlignment(SwingConstants.CENTER);
-                return c;
-            }
-        });
-        // Colour the Percent column based on value
-        table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                if (value != null) {
-                    try {
-                        double pct = Double.parseDouble(value.toString().replace("%", ""));
-                        if (pct >= 80) setForeground(SAFE_GREEN);
-                        else if (pct >= 75) setForeground(EDGE_YELLOW);
-                        else setForeground(DANGER_RED);
-                    } catch (NumberFormatException ex) {
-                        setForeground(TEXT_PRIMARY);
-                    }
-                }
-                setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                setHorizontalAlignment(SwingConstants.CENTER);
-                return c;
-            }
-        });
-
-        JScrollPane tableScroll = new JScrollPane(table);
-        tableScroll.setOpaque(false);
-        tableScroll.getViewport().setOpaque(false);
-        tableScroll.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
+        JScrollPane tableScroll = createModernScrollPane(table);
+        tableScroll.setBorder(BorderFactory.createEmptyBorder(18, 0, 0, 0));
         attendanceContent.add(tableScroll, BorderLayout.CENTER);
 
         attendanceContent.revalidate();
@@ -1041,28 +961,22 @@ public class CanIBunkGUI extends JFrame {
     private JPanel calendarContent;
 
     private JPanel buildCalendarPanel() {
-        GradientPanel panel = new GradientPanel(BG_DARK, new Color(20, 15, 5));
-        panel.setLayout(new BorderLayout());
-        panel.add(buildTopBar("\uD83D\uDCC5  Academic Calendar", ACCENT_AMBER), BorderLayout.NORTH);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(BG_MAIN);
+        panel.add(buildTopBar("Academic Calendar & Projections", "Semester milestones & projected attendance at semester end", ACCENT_AMBER), BorderLayout.NORTH);
 
         calendarContent = new JPanel();
         calendarContent.setOpaque(false);
         calendarContent.setLayout(new BoxLayout(calendarContent, BoxLayout.Y_AXIS));
         populateCalendarContent();
 
-        JScrollPane scroll = new JScrollPane(calendarContent);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setBorder(null);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        panel.add(scroll, BorderLayout.CENTER);
-
+        panel.add(createModernScrollPane(calendarContent), BorderLayout.CENTER);
         return panel;
     }
 
     private void populateCalendarContent() {
         calendarContent.removeAll();
-        calendarContent.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        calendarContent.setBorder(BorderFactory.createEmptyBorder(24, 36, 24, 36));
 
         LocalDate today = LocalDate.now();
         int workingDaysLeft = calendarService.countWorkingDaysRemaining(calendarManager, today);
@@ -1071,27 +985,35 @@ public class CanIBunkGUI extends JFrame {
         double pctComplete = totalWorkingDays > 0 ? ((double) workingDaysElapsed / totalWorkingDays) * 100.0 : 0;
 
         // Stat cards
-        JPanel statsRow = new JPanel(new GridLayout(1, 4, 14, 0));
+        JPanel statsRow = new JPanel(new GridLayout(1, 4, 16, 0));
         statsRow.setOpaque(false);
-        statsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        statsRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 86));
         statsRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-        statsRow.add(createStatCard("Days Elapsed", String.valueOf(workingDaysElapsed), ACCENT_GREEN));
-        statsRow.add(createStatCard("Days Left", String.valueOf(workingDaysLeft), ACCENT_CYAN));
-        statsRow.add(createStatCard("Total Working", String.valueOf(totalWorkingDays), ACCENT_PURPLE));
-        statsRow.add(createStatCard("% Complete", String.format("%.1f%%", pctComplete), ACCENT_AMBER));
+        statsRow.add(createMetricCard("WORKING DAYS ELAPSED", String.valueOf(workingDaysElapsed), "Days completed in S3", ACCENT_EMERALD));
+        statsRow.add(createMetricCard("WORKING DAYS REMAINING", String.valueOf(workingDaysLeft), "Instructional days left", ACCENT_CYAN));
+        statsRow.add(createMetricCard("TOTAL INSTRUCTIONAL DAYS", String.valueOf(totalWorkingDays), "Prescribed calendar days", ACCENT_PURPLE));
+        statsRow.add(createMetricCard("SEMESTER PROGRESS", String.format("%.1f%%", pctComplete), "Completion status", ACCENT_AMBER));
         calendarContent.add(statsRow);
         calendarContent.add(Box.createVerticalStrut(20));
 
-        // Semester progress bar
-        JPanel progressWrapper = new JPanel(new BorderLayout());
-        progressWrapper.setOpaque(false);
-        progressWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        progressWrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Semester Progress Bar Card
+        JPanel progressCard = new JPanel(new BorderLayout(0, 8));
+        progressCard.setOpaque(false);
+        progressCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
+        progressCard.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel progressTitle = new JLabel("Semester Progress");
-        progressTitle.setFont(FONT_SMALL);
-        progressTitle.setForeground(TEXT_SECONDARY);
-        progressWrapper.add(progressTitle, BorderLayout.NORTH);
+        JPanel labelRow = new JPanel(new BorderLayout());
+        labelRow.setOpaque(false);
+        JLabel progTitle = new JLabel("Semester Instructional Completion");
+        progTitle.setFont(FONT_SUBHEAD);
+        progTitle.setForeground(TEXT_SECONDARY);
+        labelRow.add(progTitle, BorderLayout.WEST);
+
+        JLabel progPct = new JLabel(String.format("%.1f%% Completed", pctComplete));
+        progPct.setFont(FONT_SUBHEAD);
+        progPct.setForeground(TEXT_PRIMARY);
+        labelRow.add(progPct, BorderLayout.EAST);
+        progressCard.add(labelRow, BorderLayout.NORTH);
 
         JPanel progressBar = new JPanel() {
             @Override
@@ -1099,124 +1021,116 @@ public class CanIBunkGUI extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 int w = getWidth(), h = getHeight();
-                // Background track
-                g2.setColor(new Color(40, 40, 65));
-                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 12, 12));
-                // Fill
+
+                g2.setColor(BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 8, 8));
+
                 double pct2 = Math.min(pctComplete, 100.0) / 100.0;
                 int fillWidth = (int) (w * pct2);
-                GradientPaint gp = new GradientPaint(0, 0, ACCENT_PURPLE, fillWidth, 0, ACCENT_CYAN);
+                GradientPaint gp = new GradientPaint(0, 0, ACCENT_PRIMARY, fillWidth, 0, ACCENT_CYAN);
                 g2.setPaint(gp);
-                g2.fill(new RoundRectangle2D.Float(0, 0, fillWidth, h, 12, 12));
-                // Text
-                g2.setColor(Color.WHITE);
-                g2.setFont(FONT_SMALL);
-                String txt = String.format("%.1f%%", pctComplete);
-                FontMetrics fm = g2.getFontMetrics();
-                g2.drawString(txt, (w - fm.stringWidth(txt)) / 2, (h + fm.getAscent()) / 2 - 2);
+                g2.fill(new RoundRectangle2D.Float(0, 0, fillWidth, h, 8, 8));
                 g2.dispose();
             }
         };
-        progressBar.setPreferredSize(new Dimension(0, 24));
+        progressBar.setPreferredSize(new Dimension(0, 14));
         progressBar.setOpaque(false);
-        progressWrapper.add(progressBar, BorderLayout.CENTER);
-        calendarContent.add(progressWrapper);
-        calendarContent.add(Box.createVerticalStrut(20));
+        progressCard.add(progressBar, BorderLayout.CENTER);
+        calendarContent.add(progressCard);
+        calendarContent.add(Box.createVerticalStrut(24));
 
-        // Milestones
-        JLabel milestoneTitle = new JLabel("\uD83C\uDFAF  Key Semester Milestones");
-        milestoneTitle.setFont(FONT_HEADING);
+        // Key Milestones
+        JLabel milestoneTitle = new JLabel("Key Semester Milestones");
+        milestoneTitle.setFont(FONT_TITLE);
         milestoneTitle.setForeground(TEXT_PRIMARY);
         milestoneTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         calendarContent.add(milestoneTitle);
-        calendarContent.add(Box.createVerticalStrut(10));
+        calendarContent.add(Box.createVerticalStrut(12));
 
         LocalDate lastInst = calendarService.getLastInstructionalDay();
         LocalDate condonation = calendarService.getCondonationDeadlineNoFine();
         LocalDate examDate = calendarService.getFirstExamDate();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd MMMM yyyy (EEE)");
 
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd MMM yyyy (EEE)");
+        addMilestoneCard("🏁  Last Instructional Day", lastInst != null ? lastInst.format(fmt) : "N/A",
+                lastInst != null ? calendarManager.countDaysUntilExam(lastInst, today) + " days remaining" : "", ACCENT_EMERALD);
 
-        addMilestoneRow("\uD83C\uDFC1  Last Instructional Day", lastInst != null ? lastInst.format(fmt) : "N/A",
-                lastInst != null ? calendarManager.countDaysUntilExam(lastInst, today) + " days" : "", ACCENT_GREEN);
-        addMilestoneRow("\u26A0\uFE0F  Condonation Deadline", condonation != null ? condonation.format(fmt) : "N/A",
-                condonation != null ? calendarManager.countDaysUntilExam(condonation, today) + " days" : "", ACCENT_AMBER);
-        addMilestoneRow("\uD83D\uDCDA  End Semester Exam", examDate != null ? examDate.format(fmt) : "N/A",
-                examDate != null ? calendarManager.countDaysUntilExam(examDate, today) + " days" : "", ACCENT_PINK);
+        addMilestoneCard("⚠️  Condonation Application Deadline", condonation != null ? condonation.format(fmt) : "N/A",
+                condonation != null ? calendarManager.countDaysUntilExam(condonation, today) + " days remaining" : "", ACCENT_AMBER);
 
-        calendarContent.add(Box.createVerticalStrut(20));
+        addMilestoneCard("📚  First End-Semester Examination", examDate != null ? examDate.format(fmt) : "N/A",
+                examDate != null ? calendarManager.countDaysUntilExam(examDate, today) + " days countdown" : "", ACCENT_CYAN);
 
-        // Projection table
-        JLabel projTitle = new JLabel("\uD83D\uDCC8  Semester-End Attendance Projections");
-        projTitle.setFont(FONT_HEADING);
+        calendarContent.add(Box.createVerticalStrut(24));
+
+        // Projection Table
+        JLabel projTitle = new JLabel("Semester-End Attendance Projections");
+        projTitle.setFont(FONT_TITLE);
         projTitle.setForeground(TEXT_PRIMARY);
         projTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         calendarContent.add(projTitle);
-        calendarContent.add(Box.createVerticalStrut(10));
+        calendarContent.add(Box.createVerticalStrut(12));
 
-        String[] cols = {"Code", "Subject", "Attended", "Current %", "Classes Rem.", "Max %", "Must Attend", "Bunk Budget"};
+        String[] cols = {"Code", "Subject Title", "Attended", "Current %", "Remaining Classes", "Max Possible %", "Must Attend", "Semester Bunk Budget"};
         java.util.Collection<Subject> subjects = subjectRegistry.values();
         Object[][] data = new Object[subjects.size()][8];
         int i = 0;
         for (Subject s : subjects) {
             SemesterProjection proj = SemesterAttendanceProjector.project(s, today, calendarManager, calendarService, scheduleManager);
             data[i][0] = s.getSubjectCode();
-            data[i][1] = s.getSubjectName().length() > 28 ? s.getSubjectName().substring(0, 25) + "..." : s.getSubjectName();
-            data[i][2] = s.getAttendedClasses() + " / " + s.getTotalClasses();
-            data[i][3] = String.format("%.1f%%", s.getAttendancePercentage());
-            data[i][4] = proj.getRemainingClasses();
-            data[i][5] = String.format("%.1f%%", proj.getMaxPossiblePercentage());
-            data[i][6] = proj.getMustAttendToPass();
-            data[i][7] = proj.getSemesterBunksRemaining() > 0 ? proj.getSemesterBunksRemaining() + " bunks" : "0 bunks";
+            data[i][1] = s.getSubjectName();
+            data[i][2] = s.getAttendedClasses() + " of " + s.getTotalClasses();
+            data[i][3] = String.format("%.2f%%", s.getAttendancePercentage());
+            data[i][4] = proj.getRemainingClasses() + " hours";
+            data[i][5] = String.format("%.2f%%", proj.getMaxPossiblePercentage());
+            data[i][6] = proj.getMustAttendToPass() + " classes";
+            data[i][7] = proj.getSemesterBunksRemaining() > 0 ? proj.getSemesterBunksRemaining() + " bunks allowed" : "0 bunks allowed";
             i++;
         }
 
         JTable table = createStyledTable(data, cols);
-        JScrollPane tableScroll = new JScrollPane(table);
-        tableScroll.setOpaque(false);
-        tableScroll.getViewport().setOpaque(false);
-        tableScroll.setBorder(null);
+        JScrollPane tableScroll = createModernScrollPane(table);
         tableScroll.setAlignmentX(Component.LEFT_ALIGNMENT);
-        // Set a preferred size to show properly inside BoxLayout
-        tableScroll.setPreferredSize(new Dimension(800, 200));
-        tableScroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, 250));
+        tableScroll.setPreferredSize(new Dimension(800, 220));
+        tableScroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, 260));
         calendarContent.add(tableScroll);
 
         calendarContent.revalidate();
         calendarContent.repaint();
     }
 
-    private void addMilestoneRow(String label, String date, String countdown, Color accent) {
-        JPanel row = new JPanel(new BorderLayout()) {
+    private void addMilestoneCard(String label, String date, String countdown, Color accent) {
+        JPanel card = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(30, 30, 50, 120));
+                g2.setColor(BG_SURFACE);
                 g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 10, 10));
-                // Left accent bar
+
+                g2.setColor(BORDER_SUBTLE);
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, 10, 10));
+
                 g2.setColor(accent);
                 g2.fill(new RoundRectangle2D.Float(0, 0, 3, getHeight(), 3, 3));
                 g2.dispose();
             }
         };
-        row.setOpaque(false);
-        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
-        row.setAlignmentX(Component.LEFT_ALIGNMENT);
-        row.setBorder(BorderFactory.createEmptyBorder(6, 14, 6, 14));
+        card.setOpaque(false);
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        card.setAlignmentX(Component.LEFT_ALIGNMENT);
+        card.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
 
-        JLabel left = new JLabel(label + "   " + date);
+        JLabel left = new JLabel(label + "   —   " + date);
         left.setFont(FONT_BODY);
         left.setForeground(TEXT_PRIMARY);
-        row.add(left, BorderLayout.WEST);
+        card.add(left, BorderLayout.WEST);
 
-        JLabel right = new JLabel(countdown);
-        right.setFont(FONT_BUTTON);
-        right.setForeground(accent);
-        row.add(right, BorderLayout.EAST);
+        JLabel right = createPillBadge(countdown, new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 25), accent);
+        card.add(right, BorderLayout.EAST);
 
-        calendarContent.add(row);
-        calendarContent.add(Box.createVerticalStrut(6));
+        calendarContent.add(card);
+        calendarContent.add(Box.createVerticalStrut(8));
     }
 
     // ══════════════════════════════════════════════════════════════════
@@ -1225,86 +1139,88 @@ public class CanIBunkGUI extends JFrame {
     private JPanel bunkContent;
 
     private JPanel buildBunkabilityPanel() {
-        GradientPanel panel = new GradientPanel(BG_DARK, new Color(25, 5, 15));
-        panel.setLayout(new BorderLayout());
-        panel.add(buildTopBar("\uD83C\uDFAF  Bunkability Checker", ACCENT_PINK), BorderLayout.NORTH);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(BG_MAIN);
+        panel.add(buildTopBar("Bunkability Calculator", "Pre-skip evaluation & 1-hour drop impact engine", ACCENT_PRIMARY), BorderLayout.NORTH);
 
         bunkContent = new JPanel(new BorderLayout());
         bunkContent.setOpaque(false);
         populateBunkContent();
 
-        JScrollPane scroll = new JScrollPane(bunkContent);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setBorder(null);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        panel.add(scroll, BorderLayout.CENTER);
-
+        panel.add(createModernScrollPane(bunkContent), BorderLayout.CENTER);
         return panel;
     }
 
     private void populateBunkContent() {
         bunkContent.removeAll();
-        bunkContent.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        bunkContent.setBorder(BorderFactory.createEmptyBorder(24, 36, 24, 36));
 
-        // Subject selector
-        JPanel selectorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 0));
-        selectorPanel.setOpaque(false);
-        selectorPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        // Selector Bar
+        JPanel selectorCard = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 12)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 12, 12));
+                g2.setColor(BORDER_SUBTLE);
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, 12, 12));
+                g2.dispose();
+            }
+        };
+        selectorCard.setOpaque(false);
+        selectorCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 58));
 
-        JLabel selectLabel = new JLabel("\uD83D\uDCDD  Choose Subject:");
-        selectLabel.setFont(FONT_BODY);
+        JLabel selectLabel = new JLabel("Select Subject:");
+        selectLabel.setFont(FONT_BODY_SEMIBOLD);
         selectLabel.setForeground(TEXT_PRIMARY);
-        selectorPanel.add(selectLabel);
+        selectorCard.add(selectLabel);
 
-        // Build combo box items
         java.util.Vector<String> items = new java.util.Vector<>();
-        items.add("ALL SUBJECTS");
+        items.add("ALL SUBJECTS OVERVIEW");
         for (Subject s : subjectRegistry.values()) {
-            items.add(s.getSubjectCode() + " \u2014 " + s.getSubjectName());
+            items.add(s.getSubjectCode() + " — " + s.getSubjectName());
         }
         JComboBox<String> subjectCombo = new JComboBox<>(items);
         subjectCombo.setFont(FONT_BODY);
-        subjectCombo.setBackground(BG_CARD);
+        subjectCombo.setBackground(BG_SURFACE_SUBTLE);
         subjectCombo.setForeground(TEXT_PRIMARY);
         subjectCombo.setPreferredSize(new Dimension(380, 36));
+        subjectCombo.setBorder(BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true));
         ((JComponent) subjectCombo.getRenderer()).setOpaque(true);
         subjectCombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean sel, boolean foc) {
                 Component c = super.getListCellRendererComponent(list, value, index, sel, foc);
-                c.setBackground(sel ? BG_CARD_HOVER : BG_CARD);
+                c.setBackground(sel ? BG_SURFACE_HOVER : BG_SURFACE);
                 c.setForeground(TEXT_PRIMARY);
                 return c;
             }
         });
-        selectorPanel.add(subjectCombo);
+        selectorCard.add(subjectCombo);
 
-        JButton checkBtn = createGradientButton("  \uD83D\uDD0D  Check  ", ACCENT_PINK, ACCENT_PURPLE);
-        checkBtn.setPreferredSize(new Dimension(140, 36));
-        selectorPanel.add(checkBtn);
+        JButton checkBtn = createPrimaryButton("Evaluate Subject");
+        checkBtn.setPreferredSize(new Dimension(150, 36));
+        selectorCard.add(checkBtn);
 
-        bunkContent.add(selectorPanel, BorderLayout.NORTH);
+        bunkContent.add(selectorCard, BorderLayout.NORTH);
 
-        // Results area
+        // Results Container
         JPanel resultsPanel = new JPanel(new BorderLayout());
         resultsPanel.setOpaque(false);
-        resultsPanel.setBorder(BorderFactory.createEmptyBorder(16, 0, 0, 0));
+        resultsPanel.setBorder(BorderFactory.createEmptyBorder(18, 0, 0, 0));
 
-        // Default: show all subjects overview table
-        JPanel allTable = buildAllSubjectsBunkTable();
-        resultsPanel.add(allTable, BorderLayout.CENTER);
-
+        // Default: show overview table
+        resultsPanel.add(buildAllSubjectsBunkTable(), BorderLayout.CENTER);
         bunkContent.add(resultsPanel, BorderLayout.CENTER);
 
-        // Button action
         checkBtn.addActionListener(e -> {
             resultsPanel.removeAll();
             String selected = (String) subjectCombo.getSelectedItem();
-            if (selected == null || selected.equals("ALL SUBJECTS")) {
+            if (selected == null || selected.equals("ALL SUBJECTS OVERVIEW")) {
                 resultsPanel.add(buildAllSubjectsBunkTable(), BorderLayout.CENTER);
             } else {
-                String code = selected.split("\u2014")[0].trim();
+                String code = selected.split("—")[0].trim();
                 Subject sub = subjectRegistry.get(code);
                 if (sub != null) {
                     resultsPanel.add(buildSingleSubjectBunkDetail(sub), BorderLayout.CENTER);
@@ -1322,7 +1238,7 @@ public class CanIBunkGUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
 
-        String[] cols = {"Code", "Subject Name", "Attended", "Current %", "If Bunk 1hr", "% Drop", "Safe Bunks", "Bunkable?"};
+        String[] cols = {"Code", "Subject Title", "Attended", "Current %", "If Bunked (1 Hr)", "% Drop", "Safe Bunks Left", "Can Skip Next?"};
         java.util.Collection<Subject> subjects = subjectRegistry.values();
         Object[][] data = new Object[subjects.size()][8];
         int i = 0;
@@ -1331,48 +1247,20 @@ public class CanIBunkGUI extends JFrame {
             double ifBunk = s.getProjectedPercentageIfBunk();
             double drop = cur - ifBunk;
             data[i][0] = s.getSubjectCode();
-            data[i][1] = s.getSubjectName().length() > 28 ? s.getSubjectName().substring(0, 25) + "..." : s.getSubjectName();
-            data[i][2] = s.getAttendedClasses() + " / " + s.getTotalClasses();
+            data[i][1] = s.getSubjectName();
+            data[i][2] = s.getAttendedClasses() + " of " + s.getTotalClasses();
             data[i][3] = String.format("%.2f%%", cur);
             data[i][4] = String.format("%.2f%%", ifBunk);
             data[i][5] = String.format("-%.2f%%", drop);
-            data[i][6] = s.getSafeBunks();
-            data[i][7] = s.isBunkableNextHour() ? "\u2714 YES" : "\u2716 NO";
+            data[i][6] = s.getSafeBunks() + " classes";
+            data[i][7] = s.isBunkableNextHour() ? "YES" : "NO";
             i++;
         }
 
         JTable table = createStyledTable(data, cols);
+        table.getColumnModel().getColumn(7).setCellRenderer(new PillCellRenderer());
 
-        // Colour drop column red
-        table.getColumnModel().getColumn(5).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                setForeground(DANGER_RED);
-                setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                setHorizontalAlignment(SwingConstants.CENTER);
-                return c;
-            }
-        });
-        // Bunkable column
-        table.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable t, Object value, boolean sel, boolean foc, int row, int col) {
-                Component c = super.getTableCellRendererComponent(t, value, sel, foc, row, col);
-                if (value != null) {
-                    if (value.toString().contains("YES")) setForeground(SAFE_GREEN);
-                    else setForeground(DANGER_RED);
-                }
-                setBackground(sel ? BG_CARD_HOVER : BG_CARD);
-                setHorizontalAlignment(SwingConstants.CENTER);
-                return c;
-            }
-        });
-
-        JScrollPane scroll = new JScrollPane(table);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
-        scroll.setBorder(null);
+        JScrollPane scroll = createModernScrollPane(table);
         panel.add(scroll, BorderLayout.CENTER);
         return panel;
     }
@@ -1381,7 +1269,6 @@ public class CanIBunkGUI extends JFrame {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         double cur  = s.getAttendancePercentage();
         double bunk = s.getProjectedPercentageIfBunk();
@@ -1391,249 +1278,283 @@ public class CanIBunkGUI extends JFrame {
         int needed = s.getClassesNeededTo75();
         boolean safe = s.isBunkableNextHour();
 
-        // Subject info card
+        // 4 Metric cards at top
+        JPanel metricStrip = new JPanel(new GridLayout(1, 4, 16, 0));
+        metricStrip.setOpaque(false);
+        metricStrip.setMaximumSize(new Dimension(Integer.MAX_VALUE, 86));
+        metricStrip.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        metricStrip.add(createMetricCard("CURRENT ATTENDANCE", String.format("%.2f%%", cur),
+                s.getAttendedClasses() + " / " + s.getTotalClasses() + " classes",
+                cur >= 80.0 ? ACCENT_EMERALD : cur >= 75.0 ? ACCENT_AMBER : ACCENT_ROSE));
+
+        metricStrip.add(createMetricCard("IF YOU SKIP 1 HOUR", String.format("%.2f%%", bunk),
+                String.format("Drop of -%.2f%%", drop), ACCENT_ROSE));
+
+        metricStrip.add(createMetricCard("IF YOU ATTEND 1 HOUR", String.format("%.2f%%", att),
+                String.format("Gain of +%.2f%%", att - cur), ACCENT_EMERALD));
+
+        metricStrip.add(createMetricCard("SAFE BUNK BUFFER", safeBunks + " Classes",
+                safeBunks > 0 ? "Before dropping below 75%" : "No bunk buffer available",
+                safeBunks > 0 ? ACCENT_CYAN : ACCENT_AMBER));
+
+        panel.add(metricStrip);
+        panel.add(Box.createVerticalStrut(20));
+
+        // Analytical Detail Card
         JPanel infoCard = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(BG_CARD);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 20, 20));
-                // Top accent
-                GradientPaint gp = new GradientPaint(0, 0, ACCENT_PINK, getWidth(), 0, ACCENT_PURPLE);
-                g2.setPaint(gp);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), 4, 8, 8));
+                g2.setColor(BG_SURFACE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 12, 12));
+                g2.setColor(BORDER_SUBTLE);
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, 12, 12));
                 g2.dispose();
             }
         };
         infoCard.setOpaque(false);
         infoCard.setLayout(new BoxLayout(infoCard, BoxLayout.Y_AXIS));
-        infoCard.setBorder(BorderFactory.createEmptyBorder(28, 28, 24, 28));
-        infoCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 550));
+        infoCard.setBorder(BorderFactory.createEmptyBorder(22, 24, 22, 24));
+        infoCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 500));
         infoCard.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        addDetailRow(infoCard, "\uD83D\uDCD8  Subject", s.getSubjectCode() + " \u2014 " + s.getSubjectName(), ACCENT_AMBER);
-        addDetailRow(infoCard, "\uD83D\uDCCA  Classes Attended", s.getAttendedClasses() + " / " + s.getTotalClasses() + " conducted", TEXT_PRIMARY);
+        // Subject Header Row
+        JPanel headerRow = new JPanel(new BorderLayout());
+        headerRow.setOpaque(false);
+        headerRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
-        // Attendance progress bar
-        JPanel progRow = new JPanel(new BorderLayout());
-        progRow.setOpaque(false);
-        progRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
-        progRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-        progRow.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        JLabel nameLabel = new JLabel(s.getSubjectCode() + "  —  " + s.getSubjectName());
+        nameLabel.setFont(FONT_TITLE);
+        nameLabel.setForeground(TEXT_PRIMARY);
+        headerRow.add(nameLabel, BorderLayout.WEST);
 
-        JLabel progLabel = new JLabel("\uD83D\uDCC8  Current Attendance");
-        progLabel.setFont(FONT_BODY);
-        progLabel.setForeground(TEXT_SECONDARY);
-        progLabel.setPreferredSize(new Dimension(220, 24));
-        progRow.add(progLabel, BorderLayout.WEST);
+        JLabel statusBadge = createPillBadge(s.getStatus().name(),
+                s.getStatus() == AttendanceStatus.SAFE ? new Color(34, 197, 94, 30) : new Color(239, 68, 68, 30),
+                s.getStatus() == AttendanceStatus.SAFE ? ACCENT_EMERALD : ACCENT_ROSE);
+        headerRow.add(statusBadge, BorderLayout.EAST);
+        infoCard.add(headerRow);
+        infoCard.add(Box.createVerticalStrut(16));
 
-        JPanel attBar = new JPanel() {
+        // Visual Progress Gauge
+        JPanel progWrapper = new JPanel(new BorderLayout(0, 6));
+        progWrapper.setOpaque(false);
+        progWrapper.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
+
+        JPanel progLabelRow = new JPanel(new BorderLayout());
+        progLabelRow.setOpaque(false);
+        JLabel pl = new JLabel("Attendance Threshold Gauge (75% Minimum Required)");
+        pl.setFont(FONT_SMALL);
+        pl.setForeground(TEXT_SECONDARY);
+        progLabelRow.add(pl, BorderLayout.WEST);
+
+        JLabel pr = new JLabel(String.format("%.2f%%", cur));
+        pr.setFont(FONT_SUBHEAD);
+        pr.setForeground(cur >= 75.0 ? ACCENT_EMERALD : ACCENT_ROSE);
+        progLabelRow.add(pr, BorderLayout.EAST);
+        progWrapper.add(progLabelRow, BorderLayout.NORTH);
+
+        JPanel progBar = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 int w = getWidth(), h = getHeight();
-                g2.setColor(new Color(40, 40, 65));
-                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 10, 10));
+
+                g2.setColor(BG_SURFACE_SUBTLE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, w, h, 8, 8));
+
                 double pct = Math.min(cur, 100.0) / 100.0;
                 int fillW = (int) (w * pct);
-                Color barColor = cur >= 80 ? SAFE_GREEN : cur >= 75 ? EDGE_YELLOW : DANGER_RED;
+                Color barColor = cur >= 80 ? ACCENT_EMERALD : cur >= 75 ? ACCENT_AMBER : ACCENT_ROSE;
                 g2.setColor(barColor);
-                g2.fill(new RoundRectangle2D.Float(0, 0, fillW, h, 10, 10));
-                // 75% threshold marker
+                g2.fill(new RoundRectangle2D.Float(0, 0, fillW, h, 8, 8));
+
+                // 75% threshold line
                 int threshX = (int) (w * 0.75);
-                g2.setColor(new Color(255, 255, 255, 120));
-                g2.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[]{4, 4}, 0));
+                g2.setColor(new Color(255, 255, 255, 140));
+                g2.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[]{3, 3}, 0));
                 g2.drawLine(threshX, 0, threshX, h);
-                // Text
-                g2.setColor(Color.WHITE);
-                g2.setFont(FONT_SMALL);
-                String txt = String.format("%.2f%% [%s]", cur, s.getStatus().name());
-                FontMetrics fm = g2.getFontMetrics();
-                g2.drawString(txt, (w - fm.stringWidth(txt)) / 2, (h + fm.getAscent()) / 2 - 2);
                 g2.dispose();
             }
         };
-        attBar.setPreferredSize(new Dimension(0, 22));
-        attBar.setOpaque(false);
-        progRow.add(attBar, BorderLayout.CENTER);
-        infoCard.add(progRow);
+        progBar.setPreferredSize(new Dimension(0, 14));
+        progBar.setOpaque(false);
+        progWrapper.add(progBar, BorderLayout.CENTER);
+        infoCard.add(progWrapper);
+        infoCard.add(Box.createVerticalStrut(20));
 
-        // Separator
-        infoCard.add(Box.createVerticalStrut(14));
-        JSeparator sep = new JSeparator();
-        sep.setForeground(new Color(60, 60, 90));
-        sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
-        infoCard.add(sep);
-        infoCard.add(Box.createVerticalStrut(14));
+        // Breakdown items
+        addDetailRow(infoCard, "Total Classes Conducted", s.getTotalClasses() + " lectures held", TEXT_PRIMARY);
+        addDetailRow(infoCard, "Classes You Attended", s.getAttendedClasses() + " lectures attended", TEXT_PRIMARY);
+        addDetailRow(infoCard, "Drop If You Skip 1 Hour", String.format("%.2f%%  (Attended %d of %d)", bunk, s.getAttendedClasses(), s.getTotalClasses() + 1), ACCENT_ROSE);
+        addDetailRow(infoCard, "Gain If You Attend 1 Hour", String.format("%.2f%%  (Attended %d of %d)", att, s.getAttendedClasses() + 1, s.getTotalClasses() + 1), ACCENT_EMERALD);
+        addDetailRow(infoCard, "Safe Consecutive Skips Allowed", safeBunks + " classes before falling below 75%", ACCENT_CYAN);
 
-        // Bunk impact
-        JLabel impactTitle = new JLabel("\uD83D\uDCA5  1-HOUR BUNK IMPACT");
-        impactTitle.setFont(FONT_BUTTON);
-        impactTitle.setForeground(ACCENT_PINK);
-        impactTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoCard.add(impactTitle);
-        infoCard.add(Box.createVerticalStrut(8));
-
-        addDetailRow(infoCard, "If you bunk 1 hour",
-                String.format("%.2f%%  (attended %d / %d)", bunk, s.getAttendedClasses(), s.getTotalClasses() + 1), DANGER_RED);
-        addDetailRow(infoCard, "Percentage Drop", String.format("-%.2f%%", drop), DANGER_RED);
-        addDetailRow(infoCard, "If you attend 1 hour",
-                String.format("%.2f%%  (attended %d / %d,  +%.2f%% gain)", att, s.getAttendedClasses() + 1, s.getTotalClasses() + 1, att - cur), SAFE_GREEN);
-
-        infoCard.add(Box.createVerticalStrut(14));
-        JSeparator sep2 = new JSeparator();
-        sep2.setForeground(new Color(60, 60, 90));
-        sep2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
-        infoCard.add(sep2);
-        infoCard.add(Box.createVerticalStrut(14));
-
-        // Safety
-        addDetailRow(infoCard, "\uD83D\uDEE1\uFE0F  Safe Bunks Left", safeBunks + " class(es) before falling below 75%", SAFE_GREEN);
         if (cur < 75.0) {
-            addDetailRow(infoCard, "\uD83D\uDEA8  Recovery Needed", "Must attend " + needed + " class(es) straight to reach 75%!", DANGER_RED);
+            addDetailRow(infoCard, "Shortage Recovery Requirement", "Must attend " + needed + " consecutive classes without skip!", ACCENT_ROSE);
         }
 
-        infoCard.add(Box.createVerticalStrut(18));
+        infoCard.add(Box.createVerticalStrut(20));
 
-        // Verdict banner
-        JPanel verdictPanel = new JPanel() {
+        // Verdict Banner Card
+        JPanel verdictCard = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color bgStart = safe ? new Color(22, 101, 52) : new Color(127, 29, 29);
-                Color bgEnd = safe ? new Color(16, 130, 70) : new Color(160, 30, 30);
-                GradientPaint gp = new GradientPaint(0, 0, bgStart, getWidth(), 0, bgEnd);
-                g2.setPaint(gp);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 16, 16));
+                Color bg = safe ? new Color(34, 197, 94, 25) : new Color(239, 68, 68, 25);
+                Color border = safe ? ACCENT_EMERALD : ACCENT_ROSE;
+
+                g2.setColor(bg);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 10, 10));
+
+                g2.setColor(border);
+                g2.setStroke(new BasicStroke(1.2f));
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, 10, 10));
                 g2.dispose();
             }
         };
-        verdictPanel.setOpaque(false);
-        verdictPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        verdictPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 56));
-        verdictPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        verdictPanel.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
+        verdictCard.setOpaque(false);
+        verdictCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 48));
+        verdictCard.setBorder(BorderFactory.createEmptyBorder(12, 18, 12, 18));
 
         JLabel verdictLabel = new JLabel(safe
-                ? String.format("\uD83D\uDEA6  VERDICT:  \u2714 SAFE TO BUNK!  (Attendance stays at %.2f%% \u2265 75%%)", bunk)
-                : String.format("\uD83D\uDEA6  VERDICT:  \u2716 DO NOT BUNK!  (Attendance drops to %.2f%% < 75%%)", bunk));
+                ? String.format("VERDICT: SAFE TO BUNK  —  Projected attendance stays at %.2f%% (≥ 75.0%% threshold)", bunk)
+                : String.format("VERDICT: DO NOT BUNK  —  Projected attendance drops to %.2f%% (< 75.0%% requirement)", bunk));
         verdictLabel.setFont(FONT_BUTTON);
-        verdictLabel.setForeground(Color.WHITE);
-        verdictPanel.add(verdictLabel);
+        verdictLabel.setForeground(safe ? ACCENT_EMERALD : ACCENT_ROSE);
+        verdictCard.add(verdictLabel, BorderLayout.WEST);
 
-        infoCard.add(verdictPanel);
-
+        infoCard.add(verdictCard);
         panel.add(infoCard);
+
         return panel;
     }
 
     private void addDetailRow(JPanel parent, String label, String value, Color valueColor) {
         JPanel row = new JPanel(new BorderLayout());
         row.setOpaque(false);
-        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 32));
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         row.setAlignmentX(Component.LEFT_ALIGNMENT);
         row.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
 
         JLabel lbl = new JLabel(label);
         lbl.setFont(FONT_BODY);
         lbl.setForeground(TEXT_SECONDARY);
-        lbl.setPreferredSize(new Dimension(220, 24));
         row.add(lbl, BorderLayout.WEST);
 
         JLabel val = new JLabel(value);
-        val.setFont(FONT_BODY);
+        val.setFont(FONT_BODY_SEMIBOLD);
         val.setForeground(valueColor);
-        row.add(val, BorderLayout.CENTER);
+        row.add(val, BorderLayout.EAST);
 
         parent.add(row);
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  SHARED UI UTILITIES
+    //  SHARED COMPONENT HELPERS & STYLED CONTROLS
     // ══════════════════════════════════════════════════════════════════
 
-    /** Top bar with back button and title */
-    private JPanel buildTopBar(String title, Color accent) {
-        JPanel bar = new JPanel(new BorderLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                GradientPaint gp = new GradientPaint(0, 0, new Color(20, 20, 38), getWidth(), 0, new Color(25, 25, 45));
-                g2.setPaint(gp);
-                g2.fillRect(0, 0, getWidth(), getHeight());
-                g2.dispose();
-            }
-        };
+    /** Clean internal top navigation bar */
+    private JPanel buildTopBar(String title, String subtitle, Color accent) {
+        JPanel bar = new JPanel(new BorderLayout());
         bar.setOpaque(false);
         bar.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 2, 0, accent),
-            BorderFactory.createEmptyBorder(12, 20, 12, 20)
+            BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_SUBTLE),
+            BorderFactory.createEmptyBorder(16, 36, 16, 36)
         ));
 
-        JButton backBtn = new JButton("\u2190 Back to Menu");
-        backBtn.setFont(FONT_BODY);
+        // Back button
+        JButton backBtn = new JButton("← Back to Menu");
+        backBtn.setFont(FONT_BUTTON);
         backBtn.setForeground(TEXT_PRIMARY);
-        backBtn.setBackground(new Color(50, 50, 75));
+        backBtn.setBackground(BG_SURFACE);
         backBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(70, 70, 100), 1, true),
-            BorderFactory.createEmptyBorder(6, 16, 6, 16)
+            BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+            BorderFactory.createEmptyBorder(7, 14, 7, 14)
         ));
         backBtn.setFocusPainted(false);
         backBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         backBtn.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) { backBtn.setBackground(new Color(70, 70, 100)); }
-            @Override public void mouseExited(MouseEvent e)  { backBtn.setBackground(new Color(50, 50, 75)); }
+            @Override public void mouseEntered(MouseEvent e) { backBtn.setBackground(BG_SURFACE_HOVER); }
+            @Override public void mouseExited(MouseEvent e)  { backBtn.setBackground(BG_SURFACE); }
         });
         backBtn.addActionListener(e -> cardLayout.show(contentPanel, "MENU"));
         bar.add(backBtn, BorderLayout.WEST);
 
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(FONT_HEADING);
-        titleLabel.setForeground(accent);
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        bar.add(titleLabel, BorderLayout.CENTER);
+        // Center Title & Subtitle
+        JPanel centerWrap = new JPanel();
+        centerWrap.setOpaque(false);
+        centerWrap.setLayout(new BoxLayout(centerWrap, BoxLayout.Y_AXIS));
 
-        // Spacer to balance
-        JLabel spacer = new JLabel();
-        spacer.setPreferredSize(new Dimension(160, 1));
-        bar.add(spacer, BorderLayout.EAST);
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setFont(FONT_TITLE);
+        titleLabel.setForeground(TEXT_PRIMARY);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerWrap.add(titleLabel);
+
+        if (subtitle != null && !subtitle.isEmpty()) {
+            JLabel subLabel = new JLabel(subtitle, SwingConstants.CENTER);
+            subLabel.setFont(FONT_SMALL);
+            subLabel.setForeground(TEXT_MUTED);
+            subLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            centerWrap.add(Box.createVerticalStrut(2));
+            centerWrap.add(subLabel);
+        }
+        bar.add(centerWrap, BorderLayout.CENTER);
+
+        // Right Context Pill
+        JLabel contextPill = createPillBadge("Semester 3", new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 25), accent);
+        bar.add(contextPill, BorderLayout.EAST);
 
         return bar;
     }
 
-    /** Creates a styled dark-themed JTable */
+    /** Creates a modern styled dark JTable */
     private JTable createStyledTable(Object[][] data, String[] columns) {
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
         };
         JTable table = new JTable(model);
-        table.setFont(FONT_MONO);
+        table.setFont(FONT_BODY);
         table.setForeground(TEXT_PRIMARY);
-        table.setBackground(BG_CARD);
-        table.setGridColor(new Color(50, 50, 75));
-        table.setRowHeight(34);
-        table.setSelectionBackground(BG_CARD_HOVER);
-        table.setSelectionForeground(ACCENT_CYAN);
-        table.setShowGrid(true);
-        table.setIntercellSpacing(new Dimension(1, 1));
+        table.setBackground(BG_SURFACE);
+        table.setGridColor(new Color(30, 37, 53));
+        table.setRowHeight(38);
+        table.setSelectionBackground(BG_SURFACE_HOVER);
+        table.setSelectionForeground(TEXT_PRIMARY);
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(true);
+        table.setShowVerticalLines(false);
+        table.setIntercellSpacing(new Dimension(0, 1));
         table.setFillsViewportHeight(true);
 
-        // Header styling
+        // Header
         JTableHeader header = table.getTableHeader();
-        header.setFont(FONT_BUTTON);
-        header.setBackground(new Color(35, 35, 60));
-        header.setForeground(ACCENT_CYAN);
-        header.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, ACCENT_PURPLE));
+        header.setFont(FONT_BADGE);
+        header.setBackground(new Color(24, 30, 44));
+        header.setForeground(TEXT_SECONDARY);
+        header.setPreferredSize(new Dimension(header.getWidth(), 36));
+        header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, BORDER_SUBTLE));
         header.setReorderingAllowed(false);
         ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Default cell alignment
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        // Cell Alignment & Alternating Row Colors
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable t, Object val, boolean sel, boolean foc, int row, int col) {
+                Component c = super.getTableCellRendererComponent(t, val, sel, foc, row, col);
+                if (!sel) {
+                    c.setBackground(row % 2 == 0 ? BG_SURFACE : BG_SURFACE_SUBTLE);
+                }
+                setHorizontalAlignment(col == 1 ? SwingConstants.LEFT : SwingConstants.CENTER);
+                setBorder(BorderFactory.createEmptyBorder(0, col == 1 ? 16 : 8, 0, 8));
+                return c;
+            }
+        };
+
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
@@ -1641,120 +1562,140 @@ public class CanIBunkGUI extends JFrame {
         return table;
     }
 
-    /** Small stat card for summary rows */
-    private JPanel createStatCard(String label, String value, Color accent) {
-        JPanel card = new JPanel() {
+    /** Custom Table Cell Renderer for Pill Badges */
+    private static class PillCellRenderer extends DefaultTableCellRenderer {
+        private Color pillBg = new Color(0, 0, 0, 0);
+        private Color pillFg = Color.WHITE;
+        private String pillText = "";
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+            String str = value != null ? value.toString() : "";
+            if (str.contains("SAFE") || str.equalsIgnoreCase("YES")) {
+                pillBg = new Color(34, 197, 94, 25);
+                pillFg = ACCENT_EMERALD;
+                pillText = str.equalsIgnoreCase("YES") ? "● YES" : "● SAFE";
+            } else if (str.contains("EDGE")) {
+                pillBg = new Color(245, 158, 11, 25);
+                pillFg = ACCENT_AMBER;
+                pillText = "● ON EDGE";
+            } else if (str.contains("CRIT") || str.equalsIgnoreCase("NO")) {
+                pillBg = new Color(239, 68, 68, 25);
+                pillFg = ACCENT_ROSE;
+                pillText = str.equalsIgnoreCase("NO") ? "● NO" : "● CRITICAL";
+            } else {
+                pillBg = new Color(55, 65, 81, 35);
+                pillFg = TEXT_SECONDARY;
+                pillText = str;
+            }
+            setBackground(isSelected ? BG_SURFACE_HOVER : (row % 2 == 0 ? BG_SURFACE : BG_SURFACE_SUBTLE));
+            setText("");
+            return this;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+
+            int w = getWidth();
+            int h = getHeight();
+            int pillW = 86;
+            int pillH = 22;
+            int pillX = (w - pillW) / 2;
+            int pillY = (h - pillH) / 2;
+
+            g2.setColor(pillBg);
+            g2.fill(new RoundRectangle2D.Float(pillX, pillY, pillW, pillH, 10, 10));
+
+            g2.setColor(pillFg);
+            g2.setFont(FONT_BADGE);
+            FontMetrics fm = g2.getFontMetrics();
+            int textX = (w - fm.stringWidth(pillText)) / 2;
+            int textY = pillY + (pillH + fm.getAscent() - fm.getDescent()) / 2;
+            g2.drawString(pillText, textX, textY);
+
+            g2.dispose();
+        }
+    }
+
+    /** Modern pill badge component */
+    private JLabel createPillBadge(String text, Color bg, Color fg) {
+        JLabel l = new JLabel(text) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(BG_CARD);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 16, 16));
-                // Accent left bar
-                g2.setColor(accent);
-                g2.fill(new RoundRectangle2D.Float(0, 0, 4, getHeight(), 4, 4));
-                // Subtle top glow
-                g2.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 20));
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), 30, 16, 16));
+                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+                g2.setColor(bg);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 10, 10));
                 g2.dispose();
+                super.paintComponent(g);
             }
         };
-        card.setOpaque(false);
-        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBorder(BorderFactory.createEmptyBorder(14, 18, 14, 18));
-
-        JLabel valLabel = new JLabel(value);
-        valLabel.setFont(FONT_TITLE);
-        valLabel.setForeground(accent);
-        valLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(valLabel);
-
-        JLabel lblLabel = new JLabel(label);
-        lblLabel.setFont(FONT_SMALL);
-        lblLabel.setForeground(TEXT_SECONDARY);
-        lblLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        card.add(lblLabel);
-
-        return card;
+        l.setFont(FONT_BADGE);
+        l.setForeground(fg);
+        l.setBorder(BorderFactory.createEmptyBorder(4, 10, 4, 10));
+        return l;
     }
 
-    /** Styled text field */
-    private JTextField createStyledTextField() {
-        JTextField field = new JTextField();
-        field.setFont(FONT_BODY);
-        field.setBackground(new Color(40, 40, 65));
-        field.setForeground(TEXT_PRIMARY);
-        field.setCaretColor(ACCENT_CYAN);
-        field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(70, 70, 110), 1, true),
-            BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
-        field.setPreferredSize(new Dimension(300, 38));
-        // Focus glow effect
-        field.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                field.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(ACCENT_CYAN, 2, true),
-                    BorderFactory.createEmptyBorder(7, 11, 7, 11)
-                ));
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                field.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(70, 70, 110), 1, true),
-                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
-                ));
-            }
-        });
-        return field;
+    /** Creates modern scroll pane with dark custom scrollbars */
+    private JScrollPane createModernScrollPane(Component view) {
+        JScrollPane scroll = new JScrollPane(view);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(null);
+        scroll.getVerticalScrollBar().setUI(new ModernScrollBarUI());
+        scroll.getHorizontalScrollBar().setUI(new ModernScrollBarUI());
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        return scroll;
     }
 
-    /** Styled password field */
-    private JPasswordField createStyledPasswordField() {
-        JPasswordField field = new JPasswordField();
-        field.setFont(FONT_BODY);
-        field.setBackground(new Color(40, 40, 65));
-        field.setForeground(TEXT_PRIMARY);
-        field.setCaretColor(ACCENT_CYAN);
-        field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(70, 70, 110), 1, true),
-            BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
-        field.setPreferredSize(new Dimension(300, 38));
-        // Focus glow effect
-        field.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                field.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(ACCENT_CYAN, 2, true),
-                    BorderFactory.createEmptyBorder(7, 11, 7, 11)
-                ));
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                field.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(70, 70, 110), 1, true),
-                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
-                ));
-            }
-        });
-        return field;
+    /** Minimalist dark scrollbar UI */
+    private static class ModernScrollBarUI extends BasicScrollBarUI {
+        @Override
+        protected void configureScrollBarColors() {
+            this.thumbColor = new Color(55, 65, 81);
+            this.trackColor = new Color(0, 0, 0, 0);
+        }
+        @Override
+        protected JButton createDecreaseButton(int orientation) { return createZeroButton(); }
+        @Override
+        protected JButton createIncreaseButton(int orientation) { return createZeroButton(); }
+        private JButton createZeroButton() {
+            JButton b = new JButton();
+            b.setPreferredSize(new Dimension(0, 0));
+            b.setMinimumSize(new Dimension(0, 0));
+            b.setMaximumSize(new Dimension(0, 0));
+            return b;
+        }
+        @Override
+        protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
+            if (thumbBounds.isEmpty() || !scrollbar.isEnabled()) return;
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(isThumbRollover() ? new Color(75, 85, 99) : new Color(55, 65, 81));
+            g2.fill(new RoundRectangle2D.Float(thumbBounds.x + 2, thumbBounds.y + 2, thumbBounds.width - 4, thumbBounds.height - 4, 6, 6));
+            g2.dispose();
+        }
+        @Override
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
     }
 
-    /** Gradient-style button with hover brighten effect */
-    private JButton createGradientButton(String text, Color c1, Color c2) {
-        final float[] hoverBrightness = {0f};
+    /** Primary solid button */
+    private JButton createPrimaryButton(String text) {
         JButton btn = new JButton(text) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color col1 = brighten(c1, hoverBrightness[0]);
-                Color col2 = brighten(c2, hoverBrightness[0]);
-                GradientPaint gp = new GradientPaint(0, 0, col1, getWidth(), 0, col2);
-                g2.setPaint(gp);
-                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 14, 14));
+                Color c = getModel().isPressed() ? new Color(79, 70, 229) :
+                          getModel().isRollover() ? ACCENT_PRIMARY_HOVER : ACCENT_PRIMARY;
+                g2.setColor(c);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 8, 8));
                 g2.dispose();
                 super.paintComponent(g);
             }
@@ -1766,41 +1707,95 @@ public class CanIBunkGUI extends JFrame {
         btn.setFocusPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(280, 40));
-        btn.addMouseListener(new MouseAdapter() {
-            @Override public void mouseEntered(MouseEvent e) { hoverBrightness[0] = 0.15f; btn.repaint(); }
-            @Override public void mouseExited(MouseEvent e)  { hoverBrightness[0] = 0f;    btn.repaint(); }
-        });
         return btn;
     }
 
-    /** Brighten a colour by a fraction */
-    private static Color brighten(Color c, float fraction) {
-        int r = Math.min(255, (int) (c.getRed()   + 255 * fraction));
-        int g = Math.min(255, (int) (c.getGreen() + 255 * fraction));
-        int b = Math.min(255, (int) (c.getBlue()  + 255 * fraction));
-        return new Color(r, g, b, c.getAlpha());
+    /** Secondary outline button */
+    private JButton createOutlineButton(String text) {
+        JButton btn = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getModel().isRollover() ? BG_SURFACE_HOVER : BG_SURFACE_SUBTLE);
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 8, 8));
+                g2.setColor(getModel().isRollover() ? BORDER_HOVER : BORDER_SUBTLE);
+                g2.setStroke(new BasicStroke(1f));
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, 8, 8));
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        btn.setFont(FONT_BUTTON);
+        btn.setForeground(TEXT_PRIMARY);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setPreferredSize(new Dimension(280, 40));
+        return btn;
     }
 
-    // ── Gradient background panel ────────────────────────────────────
-    private static class GradientPanel extends JPanel {
-        private final Color top, bottom;
+    /** Styled text field */
+    private JTextField createStyledTextField(String placeholder) {
+        JTextField field = new JTextField();
+        field.setFont(FONT_BODY);
+        field.setBackground(BG_SURFACE_SUBTLE);
+        field.setForeground(TEXT_PRIMARY);
+        field.setCaretColor(ACCENT_PRIMARY);
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+            BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
+        field.setPreferredSize(new Dimension(300, 38));
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(ACCENT_PRIMARY, 1, true),
+                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
+                ));
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
+                ));
+            }
+        });
+        return field;
+    }
 
-        GradientPanel(Color top, Color bottom) {
-            this.top = top;
-            this.bottom = bottom;
-            setOpaque(false);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            GradientPaint gp = new GradientPaint(0, 0, top, 0, getHeight(), bottom);
-            g2.setPaint(gp);
-            g2.fillRect(0, 0, getWidth(), getHeight());
-            g2.dispose();
-            super.paintComponent(g);
-        }
+    /** Styled password field */
+    private JPasswordField createStyledPasswordField() {
+        JPasswordField field = new JPasswordField();
+        field.setFont(FONT_BODY);
+        field.setBackground(BG_SURFACE_SUBTLE);
+        field.setForeground(TEXT_PRIMARY);
+        field.setCaretColor(ACCENT_PRIMARY);
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+            BorderFactory.createEmptyBorder(8, 12, 8, 12)
+        ));
+        field.setPreferredSize(new Dimension(240, 38));
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(ACCENT_PRIMARY, 1, true),
+                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
+                ));
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(BORDER_SUBTLE, 1, true),
+                    BorderFactory.createEmptyBorder(8, 12, 8, 12)
+                ));
+            }
+        });
+        return field;
     }
 
     // ── Panel refresh helpers ────────────────────────────────────────
@@ -1824,12 +1819,13 @@ public class CanIBunkGUI extends JFrame {
     //  MAIN ENTRY POINT
     // ══════════════════════════════════════════════════════════════════
     public static void main(String[] args) {
-        // Set look-and-feel
+        System.setProperty("awt.useSystemAAFontSettings", "on");
+        System.setProperty("swing.aatext", "true");
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            // Override defaults for dark theme compatibility
-            UIManager.put("Panel.background", BG_DARK);
-            UIManager.put("OptionPane.background", BG_CARD);
+            UIManager.put("Panel.background", BG_MAIN);
+            UIManager.put("OptionPane.background", BG_SURFACE);
             UIManager.put("OptionPane.messageForeground", TEXT_PRIMARY);
         } catch (Exception ignored) {}
 

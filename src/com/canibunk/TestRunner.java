@@ -16,7 +16,7 @@ public class TestRunner {
 
     public static void main(String[] args) {
         System.out.println("===============================================================");
-        System.out.println("      CanIBunk.com - Phase 1 Verification Test Suite           ");
+        System.out.println("      BUNKiT - Phase 1 Verification Test Suite                 ");
         System.out.println("===============================================================");
 
         testAttendanceMath();
